@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바이브 코딩 제작 가이드 · 지구과학 교사를 위한 단계별 안내</title>
+<meta name="description" content="AI와 대화하며 교육용 웹앱을 만드는 바이브 코딩 방법을 단계별로 안내합니다. 채팅으로 바로 만들기, 코드를 만들어 GitHub와 Vercel로 배포하기.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --bg: #fbf8f2;
+    --paper: #ffffff;
+    --ink: #1f2430;
+    --muted: #5d6675;
+    --line: #e6e1d7;
+    --blue: #2f6fed;
+    --blue-soft: #e8f0ff;
+    --blue-deep: #1d4fb8;
+    --green: #16a15a;
+    --green-soft: #e6f7ee;
+    --green-deep: #0e7a43;
+    --amber: #f2a33a;
+    --amber-soft: #fff4e0;
+    --red: #e5484d;
+    --red-soft: #ffecec;
+    --purple: #7c5cff;
+    --purple-soft: #f0ecff;
+    --radius: 18px;
+    --shadow: 0 8px 30px rgba(31, 36, 48, .06);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    word-break: keep-all;
+  }
+  a { color: var(--blue-deep); }
+  h1, h2, h3, h4 { line-height: 1.3; margin: 0 0 .5em; }
+  h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -.02em; }
+  h2 { font-size: clamp(1.5rem, 3.5vw, 2.1rem); font-weight: 800; letter-spacing: -.01em; }
+  h3 { font-size: 1.25rem; font-weight: 700; }
+  p { margin: 0 0 1em; }
+  code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; background: #f1efe9; padding: .1em .4em; border-radius: 6px; font-size: .92em; }
+  pre { margin: 0; white-space: pre-wrap; }
+
+  /* 상단 내비게이션 */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(251, 248, 242, .92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 1100px; margin: 0 auto; padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .brand { font-weight: 800; text-decoration: none; color: var(--ink); display: flex; align-items: center; gap: .5rem; }
+  .brand span.logo { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, var(--blue), var(--green)); color: #fff; font-size: .9rem; }
+  nav.menu { display: flex; gap: .2rem; flex-wrap: wrap; margin-left: auto; }
+  nav.menu a { text-decoration: none; color: var(--muted); font-weight: 600; font-size: .9rem; padding: .35rem .7rem; border-radius: 999px; }
+  nav.menu a:hover, nav.menu a.active { background: #efe9dc; color: var(--ink); }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem; }
+  section.block { padding: 4rem 0 2rem; }
+  .eyebrow { display: inline-block; font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: .6rem; }
+  .lead { font-size: 1.12rem; color: var(--muted); max-width: 720px; }
+
+  /* 히어로 */
+  .hero { padding: 4.5rem 0 3rem; text-align: center; }
+  .hero .tag { display: inline-block; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: .3rem .9rem; font-size: .85rem; font-weight: 600; color: var(--muted); margin-bottom: 1.2rem; }
+  .hero .lead { margin: 0 auto 2rem; }
+  .paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; margin-top: 1rem; }
+  .path-card {
+    text-align: left; text-decoration: none; color: inherit;
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1.5rem; box-shadow: var(--shadow); transition: transform .15s, box-shadow .15s;
+    display: flex; flex-direction: column; gap: .6rem;
+  }
+  .path-card:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(31, 36, 48, .1); }
+  .path-card .num { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 1.1rem; }
+  .path-card.p1 .num { background: var(--blue); }
+  .path-card.p2 .num { background: var(--green); }
+  .path-card h3 { font-size: 1.35rem; margin: .2rem 0 0; }
+  .path-card p { color: var(--muted); margin: 0; }
+  .path-card .flow { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .4rem; font-size: .85rem; font-weight: 600; }
+  .path-card .flow span { background: #f4f1ea; border-radius: 8px; padding: .25rem .6rem; }
+  .path-card .flow i { color: var(--muted); font-style: normal; align-self: center; }
+  .path-card .go { margin-top: auto; font-weight: 700; }
+  .p1 .go { color: var(--blue-deep); }
+  .p2 .go { color: var(--green-deep); }
+
+  /* 카드 */
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem 1.5rem; box-shadow: var(--shadow); }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; }
+
+  /* 비교표 */
+  table.compare { width: 100%; min-width: 640px; border-collapse: collapse; background: var(--paper); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  table.compare th, table.compare td { padding: .8rem 1rem; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.compare th { background: #f7f4ec; font-weight: 700; }
+  table.compare th.c1 { color: var(--blue-deep); }
+  table.compare th.c2 { color: var(--green-deep); }
+  table.compare tr:last-child td { border-bottom: none; }
+  .table-scroll { overflow-x: auto; }
+
+  /* 콜아웃 */
+  .callout { border-radius: 14px; padding: 1rem 1.2rem; margin: 1rem 0; border: 1px solid transparent; }
+  .callout strong.title { display: block; margin-bottom: .3rem; }
+  .callout.tip { background: var(--amber-soft); border-color: #f5d9a8; }
+  .callout.warn { background: var(--red-soft); border-color: #f5c2c4; }
+  .callout.info { background: var(--blue-soft); border-color: #c5d7ff; }
+  .callout.ok { background: var(--green-soft); border-color: #b9e6cc; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* 핵심 원칙 */
+  .principle-hero {
+    background: linear-gradient(135deg, #fff6e5, #ffe9c2);
+    border: 1px solid #f5d9a8; border-radius: var(--radius); padding: 2rem; text-align: center; margin: 1rem 0 2rem;
+  }
+  .principle-hero .quote { font-size: clamp(1.3rem, 3vw, 1.9rem); font-weight: 800; margin: .4rem 0 .6rem; }
+  .principle-hero .quote::before { content: "“ "; color: var(--amber); }
+  .principle-hero .quote::after { content: " ”"; color: var(--amber); }
+  .three-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1rem 0; }
+  .three-steps .card { position: relative; padding-top: 2rem; }
+  .three-steps .badge { position: absolute; top: -14px; left: 1.2rem; background: var(--amber); color: #fff; font-weight: 800; border-radius: 999px; padding: .15rem .8rem; font-size: .85rem; }
+
+  /* 대화 예시 */
+  .chat { display: flex; flex-direction: column; gap: .8rem; padding: 1rem; background: #f7f4ec; border-radius: var(--radius); border: 1px solid var(--line); }
+  .msg { max-width: 88%; padding: .8rem 1rem; border-radius: 16px; font-size: .97rem; position: relative; }
+  .msg .who { display: block; font-size: .75rem; font-weight: 700; color: var(--muted); margin-bottom: .25rem; }
+  .msg.me { align-self: flex-end; background: var(--blue); color: #fff; border-bottom-right-radius: 4px; }
+  .msg.me .who { color: #dfe9ff; }
+  .msg.ai { align-self: flex-start; background: #fff; border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+  .msg ol, .msg ul { margin: .3rem 0 0; padding-left: 1.2rem; }
+  .msg li { margin-bottom: .15rem; }
+  .msg .hl { background: #fff2b3; color: #1f2430; padding: 0 .25em; border-radius: 4px; font-weight: 700; }
+
+  /* 체크리스트 */
+  ul.checklist { list-style: none; padding: 0; margin: .5rem 0 0; display: grid; gap: .45rem; }
+  ul.checklist li { display: flex; gap: .6rem; align-items: flex-start; }
+  ul.checklist li::before { content: "✔"; color: var(--green); font-weight: 800; flex-shrink: 0; }
+
+  /* 단계 */
+  .steps { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.5rem; }
+  .step { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .step-head { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.4rem; border-bottom: 1px solid var(--line); background: #fdfcf9; }
+  .step-num { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-weight: 800; color: #fff; flex-shrink: 0; }
+  .m1 .step-num { background: var(--blue); }
+  .m2 .step-num { background: var(--green); }
+  .step-head h3 { margin: 0; flex: 1; font-size: 1.15rem; }
+  .step-head label { display: flex; align-items: center; gap: .4rem; font-size: .85rem; color: var(--muted); font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .step-head input[type=checkbox] { width: 20px; height: 20px; accent-color: var(--green); cursor: pointer; }
+  .step.done .step-head { background: var(--green-soft); }
+  .step.done h3 { text-decoration: line-through; color: var(--muted); }
+  .step-body { padding: 1.2rem 1.4rem; }
+  .step-body ol.todo { padding-left: 1.3rem; margin: 0 0 .8rem; }
+  .step-body ol.todo li { margin-bottom: .45rem; }
+  .step-body .ui { display: inline-block; background: #eef0f4; border: 1px solid #d9dde5; border-radius: 6px; padding: 0 .45em; font-weight: 600; font-size: .92em; }
+
+  /* 프롬프트 박스 */
+  .prompt { position: relative; background: #1f2430; color: #f4f1ea; border-radius: 14px; padding: 1rem 1.1rem 1rem; margin: .8rem 0; font-size: .95rem; line-height: 1.6; }
+  .prompt .label { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #9fb0d0; margin-bottom: .4rem; }
+  .prompt button.copy { position: absolute; top: .7rem; right: .7rem; background: #2f3646; color: #fff; border: 1px solid #454d61; border-radius: 8px; padding: .3rem .7rem; font-size: .8rem; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .prompt button.copy:hover { background: #3c4557; }
+  .prompt button.copy.copied { background: var(--green); border-color: var(--green); }
+  .prompt .blank { color: #ffd166; font-weight: 700; }
+
+  /* 도구 카드 */
+  .tool { display: flex; flex-direction: column; gap: .5rem; }
+  .tool .head { display: flex; align-items: center; gap: .6rem; }
+  .tool .icon { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; font-weight: 800; color: #fff; font-size: 1rem; }
+  .tool .icon.gemini { background: linear-gradient(135deg, #4285f4, #9b72cb); }
+  .tool .icon.gpt { background: #10a37f; }
+  .tool .icon.claude { background: #d97757; }
+  .tool .icon.codex { background: #111; }
+  .tool .feature { font-size: .85rem; font-weight: 700; color: var(--muted); }
+  .tool dl { margin: 0; display: grid; gap: .35rem; font-size: .93rem; }
+  .tool dt { font-weight: 700; color: var(--ink); }
+  .tool dd { margin: 0 0 .2rem; color: var(--muted); }
+
+  /* 파이프라인 */
+  .pipeline { display: flex; align-items: stretch; gap: .6rem; flex-wrap: wrap; justify-content: center; margin: 1.2rem 0; }
+  .pipeline .node { flex: 1 1 150px; max-width: 200px; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 1rem .8rem; text-align: center; box-shadow: var(--shadow); }
+  .pipeline .node .ico { font-size: 1.8rem; }
+  .pipeline .node b { display: block; margin-top: .2rem; }
+  .pipeline .node small { color: var(--muted); }
+  .pipeline .arrow { align-self: center; color: var(--green); font-weight: 800; font-size: 1.4rem; }
+
+  /* 탭 */
+  .tabs { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .8rem; }
+  .tabs button { font-family: inherit; font-weight: 700; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: .4rem .9rem; cursor: pointer; color: var(--muted); }
+  .tabs button.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .tabpanel { display: none; }
+  .tabpanel.active { display: block; }
+
+  /* 진행률 */
+  .progress { display: flex; align-items: center; gap: .8rem; margin: .8rem 0 0; font-size: .9rem; color: var(--muted); font-weight: 600; }
+  .progress .bar { flex: 1; height: 10px; background: #ece8de; border-radius: 999px; overflow: hidden; }
+  .progress .bar i { display: block; height: 100%; width: 0; border-radius: 999px; transition: width .3s; }
+  .m1 .progress .bar i { background: var(--blue); }
+  .m2 .progress .bar i { background: var(--green); }
+  .progress button { font-family: inherit; font-size: .8rem; border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: .2rem .6rem; cursor: pointer; color: var(--muted); }
+
+  /* FAQ */
+  details { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: .9rem 1.2rem; margin-bottom: .7rem; box-shadow: var(--shadow); }
+  details summary { cursor: pointer; font-weight: 700; list-style: none; display: flex; gap: .6rem; align-items: center; }
+  details summary::before { content: "＋"; color: var(--muted); font-weight: 400; }
+  details[open] summary::before { content: "－"; }
+  details .body { padding-top: .6rem; color: var(--muted); }
+
+  /* 아이디어 */
+  .ideas { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: .8rem; }
+  .idea { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: .9rem 1rem; box-shadow: var(--shadow); }
+  .idea b { display: block; margin-bottom: .2rem; }
+  .idea span { font-size: .9rem; color: var(--muted); }
+  .idea .unit { display: inline-block; font-size: .72rem; font-weight: 700; color: var(--purple); background: var(--purple-soft); border-radius: 6px; padding: .05rem .45rem; margin-bottom: .35rem; }
+
+  footer { padding: 3rem 0 4rem; text-align: center; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); margin-top: 3rem; }
+  .totop { position: fixed; right: 1.2rem; bottom: 1.2rem; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; border: none; cursor: pointer; font-size: 1.1rem; box-shadow: 0 6px 20px rgba(0,0,0,.2); opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .totop.show { opacity: 1; pointer-events: auto; }
+
+  @media (max-width: 640px) {
+    section.block { padding: 3rem 0 1.5rem; }
+    .step-head { flex-wrap: wrap; }
+    .step-head label { width: 100%; justify-content: flex-end; }
+    .msg { max-width: 100%; }
+    nav.menu { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#top"><span class="logo">✦</span>바이브 코딩 제작 가이드</a>
+    <nav class="menu">
+      <a href="#intro">소개</a>
+      <a href="#principle">핵심 원칙</a>
+      <a href="#method1">방법 1 · 채팅</a>
+      <a href="#method2">방법 2 · 배포</a>
+      <a href="#prompts">프롬프트</a>
+      <a href="#ideas">수업 아이디어</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 히어로 -->
+  <section class="hero wrap">
+    <span class="tag">🌍 지구과학 교사를 위한 단계별 안내</span>
+    <h1>바이브 코딩 제작 방법</h1>
+    <p class="lead">코드를 몰라도 괜찮습니다. AI와 <b>충분히 대화</b>하며 수업에 딱 맞는 교육용 웹앱을 직접 만들고, 학생들과 공유하는 두 가지 방법을 단계별로 안내합니다.</p>
+    <div class="paths">
+      <a class="path-card p1" href="#method1">
+        <span class="num">01</span>
+        <h3>바로 링크로 만들어 사용하기</h3>
+        <p>AI 채팅창 안에서 웹앱을 만들고, 생성된 링크를 그대로 학생에게 공유합니다.</p>
+        <div class="flow"><span>대화로 구체화</span><i>→</i><span>코드 생성</span><i>→</i><span>링크 공유</span></div>
+        <span class="go">가장 쉬운 방법 · 10~20분 →</span>
+      </a>
+      <a class="path-card p2" href="#method2">
+        <span class="num">02</span>
+        <h3>코드를 만들어 배포하기</h3>
+        <p>AI가 만든 코드를 GitHub에 저장하고 Vercel로 배포해 나만의 주소를 가진 웹앱으로 공개합니다.</p>
+        <div class="flow"><span>대화로 구체화</span><i>→</i><span>코드 생성</span><i>→</i><span>GitHub</span><i>→</i><span>Vercel</span></div>
+        <span class="go">오래 쓰는 방법 · 30~40분 →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 소개 -->
+  <section id="intro" class="block wrap">
+    <span class="eyebrow">Intro</span>
+    <h2>바이브 코딩이 뭔가요?</h2>
+    <p class="lead">코드를 한 줄씩 직접 타이핑하는 대신, <b>"이런 것을 만들고 싶어"라고 AI에게 말로 설명하고</b> AI가 코드를 만들게 하는 방식입니다. 우리는 '무엇을 만들지'와 '잘 만들어졌는지'에 집중하고, '어떻게 코드로 쓰는지'는 AI에게 맡깁니다.</p>
+
+    <div class="grid-3" style="margin-top:1.5rem">
+      <div class="card">
+        <h3>🧑‍🏫 교사에게 좋은 이유</h3>
+        <p style="color:var(--muted)">시중 자료가 우리 반 수업 흐름과 딱 맞는 경우는 드뭅니다. 판의 경계 시뮬레이션, 달의 위상 퀴즈처럼 <b>내 수업에 맞는 도구</b>를 그날 바로 만들 수 있습니다.</p>
+      </div>
+      <div class="card">
+        <h3>🧩 필요한 것</h3>
+        <p style="color:var(--muted)">AI 채팅 계정(Gemini·ChatGPT·Claude 중 하나)과 <b>만들고 싶은 것에 대한 구체적인 생각</b>이면 충분합니다. 방법 2는 GitHub·Vercel 계정이 추가로 필요합니다.</p>
+      </div>
+      <div class="card">
+        <h3>💡 성공의 열쇠</h3>
+        <p style="color:var(--muted)">좋은 결과물은 좋은 코드가 아니라 <b>좋은 대화</b>에서 나옵니다. 바로 코드를 시키지 말고 먼저 대화로 기획을 구체화하세요. 아래 <a href="#principle">핵심 원칙</a>에서 자세히 다룹니다.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.5rem">두 가지 방법 한눈에 비교</h3>
+    <div class="table-scroll">
+      <table class="compare">
+        <thead>
+          <tr><th style="width:18%">항목</th><th class="c1">방법 1 · 채팅으로 바로 만들기</th><th class="c2">방법 2 · 코드 만들어 배포하기</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>난이도</td><td>★☆☆ 매우 쉬움</td><td>★★☆ 처음 한 번만 익히면 쉬움</td></tr>
+          <tr><td>준비물</td><td>AI 채팅 계정</td><td>AI 채팅 계정 + GitHub 계정 + Vercel 계정</td></tr>
+          <tr><td>소요 시간</td><td>10~20분</td><td>30~40분 (두 번째부터는 10분)</td></tr>
+          <tr><td>공유 방법</td><td>AI 서비스가 만들어 준 링크</td><td>나만의 주소 (예: <code>my-app.vercel.app</code>)</td></tr>
+          <tr><td>수정하기</td><td>같은 채팅에서 바로 수정</td><td>코드를 고쳐 GitHub에 올리면 자동 재배포</td></tr>
+          <tr><td>주의할 점</td><td>서비스 정책에 따라 로그인이 필요하거나 링크가 만료될 수 있음</td><td>처음 계정 만들기와 연결 과정이 낯설 수 있음</td></tr>
+          <tr><td>이럴 때 추천</td><td>오늘 수업에 바로 쓸 간단한 도구, 일회성 활동</td><td>여러 반·여러 해에 걸쳐 오래 쓸 도구, 동료와 공유할 자료</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 핵심 원칙 -->
+  <section id="principle" class="block wrap">
+    <span class="eyebrow">Key Principle</span>
+    <h2>핵심 원칙 · 코드보다 대화가 먼저입니다</h2>
+    <p class="lead">어떤 방법을 쓰든 가장 중요한 단계입니다. AI에게 첫 메시지를 보낼 때 <b>이 한 문장</b>을 꼭 넣으세요.</p>
+
+    <div class="principle-hero">
+      <div style="font-size:.9rem;font-weight:700;color:#8a5a12">첫 메시지에 꼭 넣을 말</div>
+      <div class="quote">바로 코드를 짜지 말고, 먼저 나와 충분히 대화하면서 무엇을 만들지 구체화한 다음에 코드를 짜줘</div>
+      <div style="color:#6b4d1c">AI가 질문을 던지고, 내가 답하면서 기획이 저절로 구체화됩니다.</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>😵 바로 코드를 시키면</h3>
+        <ul style="margin:0;padding-left:1.2rem;color:var(--muted)">
+          <li>AI가 모호한 부분을 <b>자기 마음대로</b> 채웁니다. (대상 학년, 용어, 화면 구성…)</li>
+          <li>결과물을 보고 나서야 "이게 아닌데"를 깨닫습니다.</li>
+          <li>고치는 요청을 반복하다 코드가 꼬이고, 처음부터 다시 만들게 됩니다.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>😊 대화로 먼저 구체화하면</h3>
+        <ul style="margin:0;padding-left:1.2rem;color:var(--muted)">
+          <li>AI가 <b>내가 미처 생각 못한 것</b>을 질문해 줍니다. (스마트폰 지원? 퀴즈 채점?)</li>
+          <li>내 머릿속 그림이 글로 정리되어, 나중에 수정 요청도 쉬워집니다.</li>
+          <li>한 번에 원하는 것에 가까운 결과가 나와 시간이 절약됩니다.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.5rem">대화로 구체화하는 3단계</h3>
+    <div class="three-steps">
+      <div class="card"><span class="badge">1단계</span><h3>대화를 요청한다</h3><p style="color:var(--muted);margin:0">만들고 싶은 것을 한두 문장으로 말하고, "바로 코드를 짜지 말고 먼저 질문해 줘"라고 덧붙입니다.</p></div>
+      <div class="card"><span class="badge">2단계</span><h3>AI의 질문에 답한다</h3><p style="color:var(--muted);margin:0">대상 학년, 학습 목표, 기능, 화면, 사용 환경을 정합니다. 모르면 "네가 추천해 줘"라고 해도 됩니다.</p></div>
+      <div class="card"><span class="badge">3단계</span><h3>요약을 확인하고 코드를 요청한다</h3><p style="color:var(--muted);margin:0">AI가 정리한 기획 요약을 읽고 빠진 것을 보충한 뒤, "좋아, 이제 코드를 짜줘"라고 말합니다.</p></div>
+    </div>
+
+    <h3 style="margin-top:2.5rem">예시 대화 · 판의 경계 탐험 웹앱</h3>
+    <p style="color:var(--muted)">실제로 이렇게 흘러갑니다. 파란색은 선생님, 흰색은 AI입니다.</p>
+    <div class="chat">
+      <div class="msg me"><span class="who">선생님</span>판의 경계를 탐험하는 교육용 웹앱을 만들고 싶어. <span class="hl">바로 코드를 짜지 말고, 먼저 나에게 질문하면서 무엇을 만들지 충분히 구체화한 다음에 코드를 짜줘.</span></div>
+      <div class="msg ai"><span class="who">AI</span>좋습니다! 코드를 짜기 전에 몇 가지 여쭤볼게요.
+        <ol>
+          <li>대상 학년과 학생들의 사전 지식은 어느 정도인가요?</li>
+          <li>발산·수렴·보존 경계 세 가지를 모두 다루나요? 수렴 경계는 해양-대륙, 대륙-대륙 등으로 나눌까요?</li>
+          <li>학생이 어떻게 상호작용하길 원하시나요? (버튼 클릭, 드래그, 슬라이더 등)</li>
+          <li>애니메이션이 필요한가요, 정지 그림으로 충분한가요?</li>
+          <li>마지막에 퀴즈나 정리 활동을 넣을까요?</li>
+          <li>주로 어떤 기기에서 사용하나요? (교실 TV, 태블릿, 스마트폰)</li>
+        </ol>
+      </div>
+      <div class="msg me"><span class="who">선생님</span>1. 중학교 2학년, 판 구조론 기본 개념은 배운 상태야. 2. 세 가지 다 다루되 수렴 경계는 해양-대륙만. 3. 경계 종류 버튼을 누르면 단면도가 바뀌면 좋겠어. 4. 판이 움직이는 간단한 애니메이션이 있으면 좋겠어. 5. 마지막에 3문제 퀴즈, 정답 여부를 바로 알려줘. 6. 태블릿과 스마트폰에서도 잘 보이게. 전부 한국어로.</div>
+      <div class="msg ai"><span class="who">AI</span>정리하면 이렇습니다.
+        <ul>
+          <li><b>대상</b>: 중2, 판 구조론 기초 학습 후</li>
+          <li><b>화면</b>: 상단에 발산·수렴(해양-대륙)·보존 버튼 3개, 아래에 단면도 애니메이션과 설명</li>
+          <li><b>내용</b>: 각 경계의 판 이동 방향, 대표 지형(해령·해구·변환단층), 예시 지역</li>
+          <li><b>퀴즈</b>: 3문항 객관식, 즉시 채점</li>
+          <li><b>환경</b>: 반응형(태블릿·스마트폰), 한국어, HTML 파일 1개</li>
+        </ul>
+        추가로 예시 지역에 <b>실제 지명</b>(예: 동아프리카 열곡대, 안데스 산맥, 산안드레아스 단층)을 넣을까요? 이대로 진행할까요?
+      </div>
+      <div class="msg me"><span class="who">선생님</span>실제 지명 넣어줘. 좋아, <span class="hl">이제 코드를 짜줘.</span> HTML 파일 하나로 만들어줘.</div>
+    </div>
+
+    <div class="card" style="margin-top:1.5rem">
+      <h3>대화에서 꼭 정해야 할 것 체크리스트</h3>
+      <ul class="checklist">
+        <li><b>대상</b> · 학년, 사전 지식 수준</li>
+        <li><b>학습 목표</b> · 이 웹앱을 쓰고 나면 학생이 무엇을 할 수 있어야 하는가</li>
+        <li><b>핵심 기능</b> · 시뮬레이션, 퀴즈, 그래프, 카드 뒤집기 등 딱 필요한 것만</li>
+        <li><b>화면 구성</b> · 어디에 무엇이 보이는지 (말로 설명하거나 손그림 사진 첨부)</li>
+        <li><b>사용 환경</b> · 교실 TV, 태블릿, 스마트폰 / 인터넷 여부</li>
+        <li><b>과학적 정확도</b> · 교과서 용어와 표기를 따르도록 요청 (예: "2015 개정 교육과정 중학교 과학 용어 사용")</li>
+        <li><b>형식</b> · "HTML 파일 하나로", "외부 로그인 없이", "한국어로"</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 방법 1 -->
+  <section id="method1" class="block wrap m1">
+    <span class="eyebrow" style="color:var(--blue-deep)">Method 01</span>
+    <h2>방법 1 · 채팅으로 바로 만들어 링크로 공유하기</h2>
+    <p class="lead">Gemini, ChatGPT, Claude는 채팅창 옆에 <b>만든 웹앱을 바로 실행해 보여주는 화면</b>(캔버스·아티팩트)을 제공합니다. 여기서 만들고, 링크를 만들어 학생에게 보내면 끝입니다.</p>
+
+    <div class="grid-3" style="margin:1.5rem 0">
+      <div class="card tool">
+        <div class="head"><span class="icon gemini">G</span><div><b>Gemini</b><div class="feature">Canvas (캔버스)</div></div></div>
+        <dl>
+          <dt>켜는 법</dt><dd>입력창 아래 <span class="ui">도구</span> 또는 <span class="ui">＋</span> 버튼에서 <span class="ui">Canvas</span> 선택 후 요청</dd>
+          <dt>공유</dt><dd>캔버스 우측 상단 <span class="ui">공유</span> 버튼 → 링크 만들기</dd>
+        </dl>
+      </div>
+      <div class="card tool">
+        <div class="head"><span class="icon gpt">G</span><div><b>ChatGPT</b><div class="feature">Canvas (캔버스)</div></div></div>
+        <dl>
+          <dt>켜는 법</dt><dd>입력창의 <span class="ui">＋</span> 또는 <span class="ui">도구</span> 메뉴에서 <span class="ui">캔버스</span> 선택, 또는 "캔버스로 만들어줘"라고 요청</dd>
+          <dt>공유</dt><dd>상단 <span class="ui">공유</span> 버튼으로 대화 링크 생성 (상대방이 캔버스를 열어 볼 수 있음)</dd>
+        </dl>
+      </div>
+      <div class="card tool">
+        <div class="head"><span class="icon claude">C</span><div><b>Claude</b><div class="feature">Artifacts (아티팩트)</div></div></div>
+        <dl>
+          <dt>켜는 법</dt><dd>웹앱을 요청하면 자동으로 오른쪽에 아티팩트 화면이 열림 (별도 설정 불필요)</dd>
+          <dt>공유</dt><dd>아티팩트 우측 상단 <span class="ui">공유</span> → <span class="ui">게시(Publish)</span> → 공개 링크 복사</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong class="title">ℹ️ 메뉴 이름과 위치는 자주 바뀝니다</strong>
+      <p>서비스 업데이트에 따라 버튼 이름이 조금씩 달라질 수 있습니다. 채팅창에 "<b>캔버스(아티팩트)로 만들어줘</b>", "<b>이 앱을 공유할 수 있는 링크를 만들어줘</b>"라고 말로 요청해도 됩니다.</p>
+    </div>
+
+    <div class="progress"><span>진행률</span><div class="bar"><i></i></div><span class="pct">0/5</span><button type="button" class="reset">초기화</button></div>
+
+    <div class="steps">
+      <div class="step" data-key="m1-1">
+        <div class="step-head"><span class="step-num">1</span><h3>도구를 고르고 캔버스·아티팩트를 켭니다</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-body">
+          <ol class="todo">
+            <li>Gemini, ChatGPT, Claude 중 <b>이미 계정이 있는 것</b>을 고릅니다. 셋 다 처음이라면 어느 것이든 좋습니다.</li>
+            <li>새 채팅을 열고 위 표를 참고해 캔버스(아티팩트) 기능을 켭니다.</li>
+            <li>스마트폰보다는 <b>컴퓨터 브라우저</b>에서 작업하는 것이 훨씬 편합니다.</li>
+          </ol>
+          <div class="callout tip"><strong class="title">💡 팁</strong><p>무료 요금제로도 충분히 만들 수 있습니다. 다만 하루 사용량 제한이 있으니 긴 대화는 한 번에 끝내는 것이 좋습니다.</p></div>
+        </div>
+      </div>
+
+      <div class="step" data-key="m1-2">
+        <div class="step-head"><span class="step-num">2</span><h3>대화로 무엇을 만들지 구체화합니다</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-body">
+          <p>가장 중요한 단계입니다. 첫 메시지를 아래처럼 보내고, AI의 질문에 차근차근 답합니다. (<a href="#principle">핵심 원칙</a> 참고)</p>
+          <div class="prompt"><span class="label">첫 메시지 · 복사해서 빈칸만 채우세요</span><button class="copy" type="button">복사</button><pre>나는 <span class="blank">[중학교 2학년]</span> 학생을 가르치는 지구과학 교사야.
+<span class="blank">[판의 경계를 탐험하는]</span> 교육용 웹앱을 만들고 싶어.
+
+바로 코드를 짜지 말고, 먼저 나에게 질문하면서 무엇을 만들지 충분히 구체화한 다음에 코드를 짜줘.
+대상 학생, 학습 목표, 핵심 기능, 화면 구성, 사용 기기 등 네가 알아야 할 것을 한 번에 5~6개씩 질문해 줘.
+기획이 정리되면 요약을 보여주고 내 확인을 받은 뒤에 코드를 짜줘.</pre></div>
+          <ul class="checklist">
+            <li>AI 질문에 모두 답하지 않아도 됩니다. 모르는 것은 "네가 추천해 줘"라고 답하세요.</li>
+            <li>AI가 보여준 요약을 꼼꼼히 읽고, 다르게 이해한 부분은 바로잡아 줍니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step" data-key="m1-3">
+        <div class="step-head"><span class="step-num">3</span><h3>"이제 코드를 짜줘" · 미리보기 확인</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-body">
+          <p>요약이 마음에 들면 코드 생성을 요청합니다. 오른쪽 캔버스·아티팩트 화면에 웹앱이 바로 실행되어 나타납니다.</p>
+          <div class="prompt"><span class="label">코드 요청</span><button class="copy" type="button">복사</button><pre>좋아, 정리한 내용대로 이제 코드를 짜줘.
+HTML 파일 하나에 CSS와 JavaScript를 모두 넣어서 만들어줘. 외부 로그인이나 서버 없이 브라우저에서 바로 실행되어야 해.
+스마트폰과 태블릿에서도 잘 보이게 만들어줘.</pre></div>
+          <ul class="checklist">
+            <li>미리보기에서 <b>학생처럼 직접 눌러 봅니다.</b> 버튼, 퀴즈, 애니메이션이 의도대로 동작하는지 확인합니다.</li>
+            <li>과학적 내용(용어, 방향, 수치)이 정확한지 <b>교사의 눈</b>으로 검토합니다. AI는 그럴듯하게 틀릴 수 있습니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step" data-key="m1-4">
+        <div class="step-head"><span class="step-num">4</span><h3>수정을 요청합니다 (구체적으로, 한 번에 하나씩)</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-body">
+          <p>마음에 안 드는 부분을 <b>어디가 · 어떻게</b> 형태로 말합니다. "더 좋게 해줘"보다 "퀴즈 정답을 고르면 초록색으로 표시해 줘"가 훨씬 잘 됩니다.</p>
+          <div class="prompt"><span class="label">수정 요청 예시</span><button class="copy" type="button">복사</button><pre>다음 세 가지를 수정해 줘. 다른 부분은 그대로 유지해.
+1. 수렴 경계 단면도에서 해양판이 대륙판 아래로 섭입하는 방향이 반대야. 고쳐줘.
+2. 퀴즈에서 정답을 고르면 초록색, 오답이면 빨간색으로 표시하고 간단한 해설을 보여줘.
+3. 글자 크기를 전체적으로 조금 키워줘. 교실 TV에서 보기 편하게.</pre></div>
+          <div class="callout warn"><strong class="title">⚠️ 수정이 꼬이기 시작하면</strong><p>여러 번 고치다 이상해지면 "지금까지 정리한 기획을 바탕으로 처음부터 다시 깔끔하게 만들어 줘"라고 요청하세요. 대화로 구체화해 둔 기획이 있으니 금방 다시 만들어 줍니다.</p></div>
+        </div>
+      </div>
+
+      <div class="step" data-key="m1-5">
+        <div class="step-head"><span class="step-num">5</span><h3>링크를 만들어 학생에게 공유합니다</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-body">
+          <div class="tabs" data-tabs="share1">
+            <button type="button" class="active" data-tab="claude">Claude</button>
+            <button type="button" data-tab="gpt">ChatGPT</button>
+            <button type="button" data-tab="gemini">Gemini</button>
+          </div>
+          <div class="tabpanel active" data-panel="claude">
+            <ol class="todo">
+              <li>아티팩트 화면 우측 상단의 <span class="ui">공유</span>(또는 <span class="ui">게시 Publish</span>) 버튼을 누릅니다.</li>
+              <li><span class="ui">게시</span>를 선택하면 누구나 열 수 있는 공개 링크가 만들어집니다.</li>
+              <li>링크를 복사해 학급 게시판, 카카오톡, QR코드로 공유합니다.</li>
+            </ol>
+          </div>
+          <div class="tabpanel" data-panel="gpt">
+            <ol class="todo">
+              <li>채팅 화면 상단의 <span class="ui">공유</span> 버튼을 누릅니다.</li>
+              <li><span class="ui">링크 만들기</span>를 눌러 대화 링크를 복사합니다. 링크를 연 사람은 캔버스 내용을 볼 수 있습니다.</li>
+              <li>공유가 어렵다면 캔버스 우측 상단 메뉴에서 코드를 <b>다운로드</b>해 <a href="#method2">방법 2</a>로 배포합니다.</li>
+            </ol>
+          </div>
+          <div class="tabpanel" data-panel="gemini">
+            <ol class="todo">
+              <li>캔버스 화면 우측 상단의 <span class="ui">공유</span> 버튼을 누릅니다.</li>
+              <li>공개 링크를 만들어 복사합니다.</li>
+              <li>공유가 어렵다면 캔버스 코드를 복사해 <a href="#method2">방법 2</a>로 배포합니다.</li>
+            </ol>
+          </div>
+          <div class="callout warn"><strong class="title">⚠️ 학생에게 보내기 전에 꼭 확인</strong><p>내 계정에서 <b>로그아웃한 브라우저(또는 시크릿 창, 스마트폰)</b>로 링크를 열어 보세요. 로그인 없이 열리는지, 학생 기기에서 잘 보이는지 확인한 뒤 공유합니다. 학생이 열 수 없다면 <a href="#method2">방법 2</a>로 배포하면 확실합니다.</p></div>
+          <div class="callout ok"><strong class="title">🎉 완성!</strong><p>QR코드 생성 사이트에 링크를 넣어 QR을 만들면 학생들이 스마트폰으로 바로 접속할 수 있습니다.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 방법 2 -->
+  <section id="method2" class="block wrap m2">
+    <span class="eyebrow" style="color:var(--green-deep)">Method 02</span>
+    <h2>방법 2 · 코드를 만들어 GitHub에 저장하고 Vercel로 배포하기</h2>
+    <p class="lead">AI가 만든 코드를 <b>GitHub</b>(코드 보관소)에 저장하고, <b>Vercel</b>(배포 서비스)이 그 코드를 인터넷에 공개해 줍니다. 한 번 연결해 두면 코드를 고칠 때마다 자동으로 새 버전이 올라갑니다.</p>
+
+    <div class="pipeline">
+      <div class="node"><div class="ico">💬</div><b>AI와 대화</b><small>코드 작성</small></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="ico">📁</div><b>GitHub</b><small>저장 · 버전 관리</small></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="ico">🚀</div><b>Vercel</b><small>배포 · 주소 발급</small></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="ico">🌐</div><b>완성!</b><small>my-app.vercel.app</small></div>
+    </div>
+
+    <div class="grid-3" style="margin:1.5rem 0">
+      <div class="card">
+        <h3>📁 GitHub란?</h3>
+        <p style="color:var(--muted);margin:0">코드를 저장하고 변경 이력을 관리하는 서비스입니다. 구글 드라이브의 '코드 전용 버전'이라고 생각하면 됩니다. 저장 단위를 <b>저장소(repository)</b>라고 부릅니다.</p>
+      </div>
+      <div class="card">
+        <h3>🚀 Vercel이란?</h3>
+        <p style="color:var(--muted);margin:0">GitHub 저장소를 연결하면 그 코드를 인터넷에 공개해 주는 서비스입니다. 무료이며, <code>이름.vercel.app</code> 형태의 주소를 줍니다. 코드가 바뀌면 자동으로 다시 배포합니다.</p>
+      </div>
+      <div class="card">
+        <h3>🎒 준비물</h3>
+        <ul class="checklist" style="margin-top:.2rem">
+          <li>AI 채팅 계정 (Gemini·ChatGPT·Claude)</li>
+          <li><a href="https://github.com/signup" target="_blank" rel="noopener">GitHub 계정</a> (무료)</li>
+          <li><a href="https://vercel.com/signup" target="_blank" rel="noopener">Vercel 계정</a> (GitHub 계정으로 가입, 무료)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="progress"><span>진행률</span><div class="bar"><i></i></div><span class="pct">0/6</span><button type="button" class="reset">초기화</button></div>
+
+    <div class="steps">
+      <div class="step" data-key="m2-1">
+        <div class="step-head"><span class="step-num">1</span><h3>대화로 무엇을 만들지 구체화합니다</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-body">
+          <p>방법 1과 완전히 같습니다. 캔버스·아티팩트를 켜지 않고 일반 채팅으로 해도 됩니다. <a href="#principle">핵심 원칙</a>의 첫 메시지를 보내고, AI의 질문에 답하며 기획을 정리하세요.</p>
+          <div class="prompt"><span class="label">첫 메시지</span><button class="copy" type="button">복사</button><pre>나는 <span class="blank">[중학교 2학년]</span> 학생을 가르치는 지구과학 교사야.
+<span class="blank">[판의 경계를 탐험하는]</span> 교육용 웹앱을 만들고 싶어.
+
+바로 코드를 짜지 말고, 먼저 나에게 질문하면서 무엇을 만들지 충분히 구체화한 다음에 코드를 짜줘.
+대상 학생, 학습 목표, 핵심 기능, 화면 구성, 사용 기기 등 네가 알아야 할 것을 한 번에 5~6개씩 질문해 줘.
+기획이 정리되면 요약을 보여주고 내 확인을 받은 뒤에 코드를 짜줘.</pre></div>
+        </div>
+      </div>
+
+      <div class="step" data-key="m2-2">
+        <div class="step-head"><span class="step-num">2</span><h3>코드를 만들고 내 컴퓨터에 <code>index.html</code>로 저장합니다</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-body">
+          <div class="prompt"><span class="label">코드 요청 · 파일 하나로</span><button class="copy" type="button">복사</button><pre>좋아, 정리한 내용대로 이제 코드를 짜줘.
+index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어줘.
+서버나 로그인 없이 브라우저에서 바로 열리는 정적 웹페이지여야 하고, 스마트폰에서도 잘 보이게 해줘.
+완성된 코드 전체를 하나의 코드 블록으로 보여줘.</pre></div>
+          <ol class="todo">
+            <li>AI가 보여준 코드 블록 우측 상단의 <span class="ui">복사</span> 버튼을 누릅니다. (캔버스·아티팩트라면 <span class="ui">다운로드</span> 메뉴를 써도 됩니다.)</li>
+            <li>컴퓨터에서 <b>메모장</b>(Windows) 또는 <b>텍스트 편집기</b>(Mac)를 열고 붙여넣습니다.</li>
+            <li><span class="ui">다른 이름으로 저장</span> → 파일 이름을 정확히 <code>index.html</code>로, 인코딩은 <b>UTF-8</b>로 저장합니다. (메모장에서 파일 형식을 '모든 파일'로 바꿔야 <code>.txt</code>가 붙지 않습니다.)</li>
+            <li>저장한 파일을 <b>더블클릭</b>하면 브라우저에서 열립니다. 잘 동작하는지 확인합니다.</li>
+          </ol>
+          <div class="callout tip"><strong class="title">💡 왜 파일 하나로 만드나요?</strong><p>파일이 하나면 GitHub에 올리고 관리하기가 가장 쉽습니다. 파일 이름이 <code>index.html</code>이어야 주소만 입력해도 그 페이지가 열립니다. 한글이 깨지면 "UTF-8로 저장했는지" 먼저 확인하세요.</p></div>
+        </div>
+      </div>
+
+      <div class="step" data-key="m2-3">
+        <div class="step-head"><span class="step-num">3</span><h3>GitHub에 저장소를 만들고 파일을 올립니다</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-body">
+          <ol class="todo">
+            <li><a href="https://github.com" target="_blank" rel="noopener">github.com</a>에 로그인하고, 우측 상단 <span class="ui">＋</span> → <span class="ui">New repository</span>를 누릅니다.</li>
+            <li><b>Repository name</b>에 영문 이름을 입력합니다. 예: <code>plate-boundary-app</code> (띄어쓰기 대신 <code>-</code> 사용)</li>
+            <li><span class="ui">Public</span>을 선택하고 <span class="ui">Create repository</span>를 누릅니다. 다른 설정은 건드리지 않아도 됩니다.</li>
+            <li>새 저장소 화면에서 <span class="ui">uploading an existing file</span> 링크를 누릅니다.</li>
+            <li>2단계에서 저장한 <code>index.html</code>을 <b>드래그해서 놓습니다.</b></li>
+            <li>아래 <span class="ui">Commit changes</span> 버튼을 누릅니다. 이제 코드가 GitHub에 저장되었습니다.</li>
+          </ol>
+          <div class="callout info"><strong class="title">ℹ️ 커밋(commit)이란?</strong><p>"이 상태로 저장" 버튼입니다. 파일을 올리거나 고칠 때마다 커밋을 하며, 모든 커밋 이력이 남아 언제든 이전 버전으로 돌아갈 수 있습니다. 이것이 <b>버전 관리</b>입니다.</p></div>
+        </div>
+      </div>
+
+      <div class="step" data-key="m2-4">
+        <div class="step-head"><span class="step-num">4</span><h3>Vercel에 연결하고 배포합니다</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-body">
+          <ol class="todo">
+            <li><a href="https://vercel.com" target="_blank" rel="noopener">vercel.com</a>에서 <span class="ui">Sign Up</span> → <span class="ui">Continue with GitHub</span>로 가입·로그인합니다. (개인 사용은 Hobby 무료 요금제)</li>
+            <li>대시보드에서 <span class="ui">Add New…</span> → <span class="ui">Project</span>를 누릅니다.</li>
+            <li>GitHub 저장소 목록에서 방금 만든 저장소 옆 <span class="ui">Import</span>를 누릅니다. 목록에 없으면 <span class="ui">Adjust GitHub App Permissions</span>로 접근 권한을 허용합니다.</li>
+            <li>설정 화면은 <b>아무것도 바꾸지 않고</b> <span class="ui">Deploy</span>를 누릅니다. (Framework Preset은 'Other'로 두면 됩니다.)</li>
+            <li>1분 정도 기다리면 🎉 축하 화면과 함께 주소가 나옵니다. <span class="ui">Visit</span>을 눌러 확인하고, 주소를 복사합니다. 예: <code>https://plate-boundary-app.vercel.app</code></li>
+          </ol>
+          <div class="callout tip"><strong class="title">💡 주소를 예쁘게 바꾸려면</strong><p>Vercel 프로젝트의 <span class="ui">Settings</span> → <span class="ui">Domains</span>에서 <code>원하는이름.vercel.app</code>으로 바꿀 수 있습니다. (이미 누가 쓰는 이름은 안 됩니다.)</p></div>
+          <div class="callout ok"><strong class="title">🎉 완성!</strong><p>이 주소는 계속 유지됩니다. 학생, 동료 교사 누구나 로그인 없이 열 수 있습니다. QR코드로 만들어 수업 자료에 넣어 두세요.</p></div>
+        </div>
+      </div>
+
+      <div class="step" data-key="m2-5">
+        <div class="step-head"><span class="step-num">5</span><h3>수정하기 · 고치면 자동으로 다시 배포됩니다</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-body">
+          <p>수업하다 보면 고칠 것이 생깁니다. 처음부터 다시 할 필요 없이 파일만 바꾸면 됩니다.</p>
+          <ol class="todo">
+            <li>AI 채팅으로 돌아가 수정을 요청합니다. "<b>다른 부분은 그대로 두고</b> ○○만 고쳐서, 전체 코드를 다시 보여줘."</li>
+            <li>새 코드 전체를 복사합니다.</li>
+            <li>GitHub 저장소에서 <code>index.html</code>을 클릭 → 우측 상단 <span class="ui">✏️ (Edit)</span> 연필 아이콘을 누릅니다.</li>
+            <li>기존 내용을 전체 선택(<code>Ctrl+A</code>)해 지우고 새 코드를 붙여넣습니다.</li>
+            <li><span class="ui">Commit changes…</span> → 무엇을 바꿨는지 짧게 적고(예: "퀴즈 해설 추가") → <span class="ui">Commit changes</span>.</li>
+            <li>Vercel이 변경을 감지해 <b>자동으로 다시 배포</b>합니다. 1분 뒤 같은 주소를 새로고침하면 반영되어 있습니다.</li>
+          </ol>
+          <div class="callout warn"><strong class="title">⚠️ 바뀐 게 안 보여요</strong><p>브라우저가 이전 화면을 기억하고 있을 수 있습니다. <code>Ctrl+Shift+R</code>(강력 새로고침) 또는 시크릿 창으로 열어 보세요. Vercel 대시보드의 <span class="ui">Deployments</span>에서 배포 상태가 <b>Ready</b>인지도 확인합니다.</p></div>
+        </div>
+      </div>
+
+      <div class="step" data-key="m2-6">
+        <div class="step-head"><span class="step-num">6</span><h3>심화 · Claude Code, Codex로 자동화하기 (선택)</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-body">
+          <p>위 과정이 익숙해지면, AI가 <b>코드 작성부터 GitHub 저장까지 직접</b> 하게 할 수 있습니다. 복사·붙여넣기가 사라집니다.</p>
+          <div class="grid-2">
+            <div class="card tool">
+              <div class="head"><span class="icon claude">C</span><div><b>Claude Code</b><div class="feature">터미널 · 웹 기반</div></div></div>
+              <p style="color:var(--muted);margin:0;font-size:.95rem">터미널이나 claude.ai/code에서 GitHub 저장소를 연결하고 "판의 경계 앱에 퀴즈 해설을 추가해 줘"라고 하면, AI가 파일을 수정하고 GitHub에 올리는 것까지 처리합니다. 이 가이드 웹앱도 Claude Code로 만들었습니다.</p>
+            </div>
+            <div class="card tool">
+              <div class="head"><span class="icon codex">C</span><div><b>Codex (ChatGPT)</b><div class="feature">자동화 지원</div></div></div>
+              <p style="color:var(--muted);margin:0;font-size:.95rem">ChatGPT의 코딩 에이전트입니다. GitHub 저장소를 연결하면 요청한 수정을 코드로 만들어 반영해 줍니다. 마찬가지로 Vercel이 자동 배포합니다.</p>
+            </div>
+          </div>
+          <div class="callout info"><strong class="title">ℹ️ 언제 넘어가면 좋을까요?</strong><p>파일이 여러 개로 늘어나거나, 수정이 잦아지거나, 여러 앱을 관리하게 될 때입니다. 처음에는 방법 2의 5단계까지로 충분합니다. 여기서도 원칙은 같습니다. <b>"바로 코드를 짜지 말고, 먼저 나와 대화해 줘."</b></p></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.5rem">자주 겪는 문제</h3>
+    <div class="grid-2">
+      <div class="card"><h3 style="font-size:1.05rem">🔍 주소를 열면 404 NOT FOUND</h3><p style="color:var(--muted);margin:0">파일 이름이 정확히 <code>index.html</code>인지 확인하세요. <code>index.html.txt</code>, <code>Index.html</code>, <code>index.htm</code>은 안 됩니다. 저장소 첫 화면(최상위)에 파일이 있어야 합니다.</p></div>
+      <div class="card"><h3 style="font-size:1.05rem">⬜ 화면이 하얗게만 나와요</h3><p style="color:var(--muted);margin:0">코드가 일부만 복사됐을 가능성이 큽니다. 코드 마지막이 <code>&lt;/html&gt;</code>로 끝나는지 확인하고, AI에게 "전체 코드를 처음부터 끝까지 다시 보여줘"라고 요청하세요.</p></div>
+      <div class="card"><h3 style="font-size:1.05rem">🈳 한글이 깨져요</h3><p style="color:var(--muted);margin:0">파일을 UTF-8로 저장했는지 확인하세요. 코드 상단에 <code>&lt;meta charset="UTF-8"&gt;</code>이 있는지도 확인합니다.</p></div>
+      <div class="card"><h3 style="font-size:1.05rem">🤔 오류 메시지를 모르겠어요</h3><p style="color:var(--muted);margin:0">오류 화면을 <b>캡처해서 AI에게 붙여넣고</b> "이 오류가 왜 나는지 설명하고 고쳐줘"라고 하세요. 대부분 바로 해결됩니다.</p></div>
+    </div>
+  </section>
+
+  <!-- 프롬프트 모음 -->
+  <section id="prompts" class="block wrap">
+    <span class="eyebrow">Prompts</span>
+    <h2>바로 쓰는 프롬프트 모음</h2>
+    <p class="lead">복사 버튼을 누르고 <span style="color:#b8860b;font-weight:700">[노란 빈칸]</span>만 바꿔 쓰세요.</p>
+
+    <div class="prompt"><span class="label">① 시작 · 대화 먼저</span><button class="copy" type="button">복사</button><pre>나는 <span class="blank">[고등학교 1학년]</span> 학생을 가르치는 지구과학 교사야.
+<span class="blank">[달의 위상 변화를 직접 조작하며 이해하는]</span> 교육용 웹앱을 만들고 싶어.
+
+바로 코드를 짜지 말고, 먼저 나에게 질문하면서 무엇을 만들지 충분히 구체화한 다음에 코드를 짜줘.
+대상 학생, 학습 목표, 핵심 기능, 화면 구성, 사용 기기 등 네가 알아야 할 것을 한 번에 5~6개씩 질문해 줘.
+기획이 정리되면 요약을 보여주고 내 확인을 받은 뒤에 코드를 짜줘.</pre></div>
+
+    <div class="prompt"><span class="label">② 답하기 어려울 때</span><button class="copy" type="button">복사</button><pre>그 부분은 잘 모르겠어. 지구과학 교육 전문가 입장에서 <span class="blank">[중학생]</span>에게 가장 효과적인 방식을 네가 2~3가지 제안하고 추천 이유를 알려줘. 내가 고를게.</pre></div>
+
+    <div class="prompt"><span class="label">③ 코드 요청</span><button class="copy" type="button">복사</button><pre>좋아, 정리한 기획대로 이제 코드를 짜줘.
+index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어줘.
+서버나 로그인 없이 브라우저에서 바로 열려야 하고, 스마트폰·태블릿에서도 잘 보이게 해줘.
+모든 글은 한국어로, 과학 용어는 교과서 표기를 따라줘.</pre></div>
+
+    <div class="prompt"><span class="label">④ 수정 요청</span><button class="copy" type="button">복사</button><pre>다른 부분은 그대로 유지하고 다음만 수정해 줘.
+1. <span class="blank">[어디]</span>에서 <span class="blank">[무엇]</span>을 <span class="blank">[어떻게]</span> 바꿔줘.
+2. <span class="blank">[어디]</span>에 <span class="blank">[무엇]</span>을 추가해 줘.
+수정한 뒤 전체 코드를 처음부터 끝까지 다시 보여줘.</pre></div>
+
+    <div class="prompt"><span class="label">⑤ 과학적 검토 요청</span><button class="copy" type="button">복사</button><pre>이 웹앱의 과학적 내용이 정확한지 지구과학 교사 입장에서 검토해 줘.
+잘못된 용어, 방향, 수치, 오개념을 유발할 수 있는 표현이 있으면 목록으로 알려주고, 수정안을 제안해 줘.
+특히 <span class="blank">[중학교 과학 교과서]</span>의 표기와 맞는지 확인해 줘.</pre></div>
+
+    <div class="prompt"><span class="label">⑥ 오류 해결</span><button class="copy" type="button">복사</button><pre>웹앱을 열었더니 아래와 같은 문제가 생겼어.
+<span class="blank">[문제 설명 또는 오류 메시지 붙여넣기 / 캡처 첨부]</span>
+왜 이런 문제가 생기는지 쉽게 설명하고, 고친 전체 코드를 다시 보여줘.</pre></div>
+
+    <div class="prompt"><span class="label">⑦ 처음부터 다시</span><button class="copy" type="button">복사</button><pre>수정을 반복하다 보니 코드가 복잡해진 것 같아.
+지금까지 우리가 정리한 기획과 수정 사항을 모두 반영해서, 처음부터 깔끔하게 다시 만들어 줘.
+만들기 전에 반영할 내용을 목록으로 먼저 보여줘.</pre></div>
+  </section>
+
+  <!-- 아이디어 -->
+  <section id="ideas" class="block wrap">
+    <span class="eyebrow">Ideas</span>
+    <h2>지구과학 수업용 웹앱 아이디어</h2>
+    <p class="lead">첫 메시지의 빈칸에 넣어 바로 시작할 수 있는 주제들입니다.</p>
+    <div class="ideas">
+      <div class="idea"><span class="unit">고체 지구</span><b>판의 경계 탐험</b><span>경계 종류를 고르면 단면도 애니메이션과 대표 지형·지역이 나오는 앱</span></div>
+      <div class="idea"><span class="unit">고체 지구</span><b>지진파 도달 시간 계산기</b><span>P파·S파 도달 시각을 입력하면 진원 거리를 계산하고 그래프로 보여주는 앱</span></div>
+      <div class="idea"><span class="unit">고체 지구</span><b>암석 순환 카드 게임</b><span>암석과 생성 과정을 연결하는 드래그 앤 드롭 활동</span></div>
+      <div class="idea"><span class="unit">대기와 해양</span><b>기단과 전선 시뮬레이션</b><span>한랭전선·온난전선의 단면과 통과 전후 날씨 변화 애니메이션</span></div>
+      <div class="idea"><span class="unit">대기와 해양</span><b>해수의 층상 구조 그래프</b><span>위도·계절을 바꾸면 수온 연직 분포 그래프가 변하는 앱</span></div>
+      <div class="idea"><span class="unit">대기와 해양</span><b>구름 종류 분류 퀴즈</b><span>구름 사진(또는 그림)을 보고 종류와 높이를 맞히는 퀴즈</span></div>
+      <div class="idea"><span class="unit">우주</span><b>달의 위상 조작기</b><span>슬라이더로 달의 위치를 바꾸면 지구에서 보이는 모양이 바뀌는 앱</span></div>
+      <div class="idea"><span class="unit">우주</span><b>별의 일생 타임라인</b><span>질량을 고르면 진화 경로(주계열→거성→백색왜성/중성자별/블랙홀)가 그려지는 앱</span></div>
+      <div class="idea"><span class="unit">우주</span><b>계절별 별자리 찾기</b><span>날짜와 시각을 입력하면 그 시각 남쪽 하늘의 대표 별자리를 보여주는 앱</span></div>
+      <div class="idea"><span class="unit">우주</span><b>태양계 행성 비교</b><span>행성을 두 개 고르면 크기·거리·공전 주기를 비교해 주는 카드</span></div>
+      <div class="idea"><span class="unit">지구 환경</span><b>탄소 순환 시뮬레이션</b><span>화석 연료 사용량을 바꾸면 대기 중 CO₂와 기온 변화 그래프가 반응하는 앱</span></div>
+      <div class="idea"><span class="unit">수업 도구</span><b>단원 정리 플래시카드</b><span>용어와 설명을 뒤집어 보며 스스로 점검하는 카드 세트</span></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="block wrap">
+    <span class="eyebrow">FAQ</span>
+    <h2>자주 묻는 질문</h2>
+    <details><summary>코딩을 전혀 몰라도 정말 할 수 있나요?</summary><div class="body">네. 이 가이드의 모든 단계는 코드를 읽거나 쓰지 않습니다. 복사·붙여넣기와 버튼 클릭만 합니다. 중요한 것은 코드 지식이 아니라 "무엇을 만들지" 명확히 말하는 능력이고, 그것은 교사가 가장 잘하는 일입니다.</div></details>
+    <details><summary>어떤 AI가 가장 좋은가요?</summary><div class="body">셋 다 교육용 웹앱을 만들기에 충분합니다. 이미 쓰고 있는 것을 쓰세요. 결과가 마음에 안 들면 같은 기획 요약을 다른 AI에 붙여넣어 비교해 보는 것도 좋은 방법입니다.</div></details>
+    <details><summary>무료로 가능한가요?</summary><div class="body">네. AI 채팅 무료 요금제, GitHub 무료, Vercel Hobby(개인·비상업) 무료로 모두 가능합니다. AI 무료 요금제는 사용량 제한이 있어 긴 작업은 나눠서 하는 것이 좋습니다.</div></details>
+    <details><summary>학생 개인정보는 괜찮나요?</summary><div class="body">이 가이드의 방식은 로그인 없이 브라우저에서만 실행되는 웹앱이므로 학생 정보가 어디에도 저장되지 않습니다. 학생 이름·점수를 저장하는 기능을 추가하려면 별도 검토가 필요하니, 처음에는 저장 기능 없이 만드세요.</div></details>
+    <details><summary>AI가 만든 내용이 과학적으로 틀릴 수도 있나요?</summary><div class="body">네, 그럴듯하게 틀릴 수 있습니다. 반드시 교사가 직접 검토하세요. 프롬프트 모음의 "⑤ 과학적 검토 요청"을 쓰면 AI 스스로 점검하게 할 수도 있지만, 최종 확인은 교사의 몫입니다.</div></details>
+    <details><summary>방법 1로 만든 것을 나중에 방법 2로 옮길 수 있나요?</summary><div class="body">네. 캔버스·아티팩트에서 코드를 다운로드(또는 복사)해 <code>index.html</code>로 저장한 뒤, 방법 2의 3단계부터 진행하면 됩니다.</div></details>
+    <details><summary>동료 교사와 같이 수정하고 싶어요</summary><div class="body">GitHub 저장소의 <span class="ui">Settings</span> → <span class="ui">Collaborators</span>에서 동료의 GitHub 계정을 추가하면 함께 파일을 수정할 수 있고, 누가 무엇을 바꿨는지 이력이 남습니다.</div></details>
+    <details><summary>손그림이나 캡처 화면도 보여줄 수 있나요?</summary><div class="body">네. 원하는 화면 구성을 종이에 그려 사진을 찍거나, 참고할 사이트를 캡처해 채팅에 첨부하면 훨씬 정확하게 만들어 줍니다. "이 그림처럼 배치해 줘"라고 말하세요.</div></details>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>바이브 코딩 제작 가이드</b> · 지구과학 교사 연구회 수업 사례 공유 자료</p>
+    <p>이 웹앱 역시 바이브 코딩으로 만들었습니다. 선생님도 오늘 하나 만들어 보세요. 🌏</p>
+  </div>
+</footer>
+
+<button class="totop" type="button" aria-label="맨 위로">↑</button>
+
+<script>
+(function () {
+  // ----- 프롬프트 복사 -----
+  document.querySelectorAll('.prompt .copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var pre = btn.parentElement.querySelector('pre');
+      var text = pre.innerText;
+      function done() {
+        btn.textContent = '복사됨 ✓';
+        btn.classList.add('copied');
+        setTimeout(function () { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1600);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () { fallback(text); done(); });
+      } else { fallback(text); done(); }
+    });
+  });
+  function fallback(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  // ----- 단계 체크박스 (진행 상황 저장) -----
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem('vibe-guide-progress') || '{}'); } catch (e) { store = {}; }
+  function save() { try { localStorage.setItem('vibe-guide-progress', JSON.stringify(store)); } catch (e) {} }
+
+  document.querySelectorAll('section.m1, section.m2').forEach(function (sec) {
+    var steps = sec.querySelectorAll('.step');
+    var bar = sec.querySelector('.progress .bar i');
+    var pct = sec.querySelector('.progress .pct');
+    function refresh() {
+      var done = 0;
+      steps.forEach(function (s) { if (s.classList.contains('done')) done++; });
+      bar.style.width = (done / steps.length * 100) + '%';
+      pct.textContent = done + '/' + steps.length;
+    }
+    steps.forEach(function (step) {
+      var key = step.dataset.key;
+      var cb = step.querySelector('input[type=checkbox]');
+      if (store[key]) { cb.checked = true; step.classList.add('done'); }
+      cb.addEventListener('change', function () {
+        step.classList.toggle('done', cb.checked);
+        store[key] = cb.checked; save(); refresh();
+      });
+    });
+    sec.querySelector('.progress .reset').addEventListener('click', function () {
+      steps.forEach(function (step) {
+        step.classList.remove('done');
+        step.querySelector('input[type=checkbox]').checked = false;
+        delete store[step.dataset.key];
+      });
+      save(); refresh();
+    });
+    refresh();
+  });
+
+  // ----- 탭 -----
+  document.querySelectorAll('.tabs').forEach(function (tabs) {
+    var parent = tabs.parentElement;
+    tabs.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        tabs.querySelectorAll('button').forEach(function (x) { x.classList.remove('active'); });
+        parent.querySelectorAll('.tabpanel').forEach(function (p) { p.classList.remove('active'); });
+        b.classList.add('active');
+        parent.querySelector('[data-panel="' + b.dataset.tab + '"]').classList.add('active');
+      });
+    });
+  });
+
+  // ----- 내비게이션 활성 표시 & 맨 위로 -----
+  var links = document.querySelectorAll('nav.menu a');
+  var sections = Array.prototype.map.call(links, function (a) { return document.querySelector(a.getAttribute('href')); });
+  var totop = document.querySelector('.totop');
+  function onScroll() {
+    var y = window.scrollY + 120, current = null;
+    sections.forEach(function (s, i) { if (s && s.offsetTop <= y) current = i; });
+    links.forEach(function (a, i) { a.classList.toggle('active', i === current); });
+    totop.classList.toggle('show', window.scrollY > 600);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  totop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+})();
+</script>
+</body>
+</html>
