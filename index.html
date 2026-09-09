@@ -145,8 +145,8 @@
 
   /* 체크리스트 */
   ul.checklist { list-style: none; padding: 0; margin: .5rem 0 0; display: grid; gap: .45rem; }
-  ul.checklist li { display: flex; gap: .6rem; align-items: flex-start; }
-  ul.checklist li::before { content: "✔"; color: var(--green-deep); font-weight: 900; flex-shrink: 0; }
+  ul.checklist li { position: relative; padding-left: 1.5rem; }
+  ul.checklist li::before { content: "✔"; color: var(--green-deep); font-weight: 900; position: absolute; left: 0; top: 0; }
 
   /* 단계 */
   .steps { display: flex; flex-direction: column; gap: 1.6rem; margin-top: 1.6rem; }
