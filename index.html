@@ -61,13 +61,13 @@
   nav.menu a.active { background: var(--ink); color: #fff; border-color: var(--ink); }
 
   .wrap { max-width: 1160px; margin: 0 auto; padding: 0 1.4rem; }
-  section.block { padding: 4rem 0 2rem; }
+  section.block { padding-top: 4rem; padding-bottom: 2rem; }
   .eyebrow { display: inline-block; font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .6rem; }
   .lead { font-size: 1.1rem; color: var(--muted); max-width: 760px; }
 
   /* 히어로 */
   .hero-band { background: #fff; border-bottom: 1.5px solid var(--line); }
-  .hero { padding: 3.8rem 0 3rem; text-align: center; }
+  .hero { padding-top: 3.8rem; padding-bottom: 3rem; text-align: center; }
   .hero .tag { display: inline-flex; align-items: center; gap: .4rem; background: var(--blue-soft); border: 2px solid var(--ink); border-radius: 999px; padding: .3rem 1rem; font-size: .85rem; font-weight: 800; margin-bottom: 1.2rem; }
   .hero .lead { margin: 0 auto 2.2rem; }
   .paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.6rem; margin-top: 1rem; }
@@ -113,6 +113,7 @@
   table.compare th.c2 { background: var(--green-soft); color: var(--green-deep); }
   table.compare tr:last-child td { border-bottom: none; }
   .table-scroll { overflow-x: auto; padding: 0 6px 6px 0; }
+  .scroll-hint { display: none; font-size: .85rem; color: var(--muted); font-weight: 700; margin: 0 0 .5rem; }
 
   /* 콜아웃 */
   .callout { border-radius: 14px; padding: 1rem 1.2rem; margin: 1rem 0; border: 2px solid var(--ink); }
@@ -224,12 +225,22 @@
   .totop.show { opacity: 1; pointer-events: auto; }
 
   @media (max-width: 640px) {
-    section.block { padding: 3rem 0 1.5rem; }
+    section.block { padding-top: 3rem; padding-bottom: 1.5rem; }
+    .hero { padding-top: 2.6rem; padding-bottom: 2.4rem; }
+    .wrap { padding: 0 1rem; }
+    .topbar-inner { padding: .6rem 1rem; }
+    h1 { font-size: 2rem; }
+    .lead { font-size: 1rem; }
+    .card, .path-card .inner { padding-left: 1.1rem; padding-right: 1.1rem; }
+    .step-head, .step-body { padding-left: 1rem; padding-right: 1rem; }
+    .paths { gap: 1.3rem; }
+    .principle-hero { padding: 1.4rem 1rem; }
+    .scroll-hint { display: block; }
     .step-head { flex-wrap: wrap; }
     .step-head label { margin-left: auto; }
     .msg { max-width: 100%; }
     nav.menu { margin-left: 0; }
-    .card.strip::before { margin: 0 -1.5rem; }
+    .card.strip::before { margin: 0 -1.1rem; }
   }
 </style>
 </head>
@@ -305,6 +316,7 @@
     </div>
 
     <h3 style="margin-top:2.6rem">두 가지 방법 한눈에 비교</h3>
+    <p class="scroll-hint">👉 표를 옆으로 밀어서 볼 수 있어요</p>
     <div class="table-scroll">
       <table class="compare">
         <thead>
