@@ -437,8 +437,8 @@
       <div class="card tool">
         <div class="head"><span class="icon gemini">G</span><div><b>Gemini</b><div class="feature">Canvas (캔버스)</div></div></div>
         <dl>
-          <dt>켜는 법</dt><dd>입력창 아래 <span class="ui">도구</span> 또는 <span class="ui">＋</span> 버튼에서 <span class="ui">Canvas</span> 선택 후 요청</dd>
-          <dt>공유</dt><dd>캔버스 우측 상단 <span class="ui">공유</span> 버튼 → 링크 만들기</dd>
+          <dt>켜는 법</dt><dd>입력창 아래 <span class="ui">＋</span>(파일 추가) 버튼에서 <span class="ui">Canvas</span> 선택 후 요청</dd>
+          <dt>공유</dt><dd>캔버스 우측 상단 <span class="ui">공유 및 내보내기</span> → <span class="ui">공유</span> → 링크 복사</dd>
         </dl>
       </div>
       <div class="card tool">
@@ -452,7 +452,7 @@
         <div class="head"><span class="icon claude">C</span><div><b>Claude</b><div class="feature">Artifacts (아티팩트)</div></div></div>
         <dl>
           <dt>켜는 법</dt><dd>설정 → 기능(Capabilities)에서 <span class="ui">코드 실행 및 파일 생성</span> 켜기 (보통 기본으로 켜져 있음) → 웹앱을 요청하면 오른쪽에 아티팩트 화면이 열림</dd>
-          <dt>공유</dt><dd>아티팩트 우측 상단 <span class="ui">게시(Publish)</span> → 공개 링크 복사. 학생은 로그인 없이 바로 이용 가능</dd>
+          <dt>공유</dt><dd>아티팩트 우측 상단 <span class="ui">공유(Share)</span> → <span class="ui">링크가 있는 모든 사용자</span> 선택 → 링크 복사. 여는 사람도 Claude에 로그인해야 함</dd>
         </dl>
       </div>
     </div>
@@ -532,9 +532,10 @@ HTML 파일 하나에 CSS와 JavaScript를 모두 넣어서 만들어줘. 외부
           </div>
           <div class="tabpanel active" data-panel="claude">
             <ol class="todo">
-              <li>아티팩트 화면 우측 상단의 <span class="ui">공유</span>(또는 <span class="ui">게시 Publish</span>) 버튼을 누릅니다.</li>
-              <li><span class="ui">게시</span>를 선택하면 누구나 열 수 있는 공개 링크가 만들어집니다.</li>
-              <li>링크를 복사해 학급 게시판, 카카오톡, QR코드로 공유합니다.</li>
+              <li>아티팩트 화면 우측 상단의 <span class="ui">공유(Share)</span> 버튼을 누릅니다.</li>
+              <li>접근 권한(Who has access)을 <span class="ui">링크가 있는 모든 사용자(Anyone with the link)</span>로 바꾸고 링크를 복사합니다.</li>
+              <li>이 링크는 <b>Claude에 로그인한 사람만</b> 열 수 있습니다. Claude는 만 18세 이상만 가입할 수 있어 학생 대부분은 열 수 없으므로, 학생용이라면 코드를 복사(또는 다운로드)해 <a href="#method2">방법 2</a>로 배포합니다. 동료 교사와 공유할 때는 그대로 써도 됩니다.</li>
+              <li>예전에 만든 아티팩트에 <span class="ui">게시(Publish)</span> 버튼이 보인다면, 게시해서 만든 공개 링크는 로그인 없이 열립니다.</li>
             </ol>
           </div>
           <div class="tabpanel" data-panel="gpt">
@@ -542,12 +543,14 @@ HTML 파일 하나에 CSS와 JavaScript를 모두 넣어서 만들어줘. 외부
               <li>코드 블록(또는 Preview 화면)의 <span class="ui">공유</span> 버튼을 누르면 읽기 전용 링크가 만들어집니다. 계정·환경에 따라 버튼이 없을 수 있습니다.</li>
               <li>공유 버튼이 없다면 AI에게 "<b>이 앱을 공유할 수 있는 링크를 만들어줘</b>"라고 요청하거나, 채팅 상단 <span class="ui">공유</span>로 대화 링크를 만듭니다.</li>
               <li>그래도 어렵다면 코드 블록을 <b>복사</b>해 <a href="#method2">방법 2</a>로 배포합니다.</li>
+              <li>일부 유료 플랜에서는 <span class="ui">Sites</span>(베타) 기능으로 웹사이트를 바로 게시할 수도 있습니다. 무료·Go 플랜에서는 쓸 수 없습니다.</li>
             </ol>
           </div>
           <div class="tabpanel" data-panel="gemini">
             <ol class="todo">
-              <li>캔버스 화면 우측 상단의 <span class="ui">공유</span> 버튼을 누릅니다.</li>
-              <li>공개 링크를 만들어 복사합니다.</li>
+              <li>캔버스 화면 우측 상단의 <span class="ui">공유 및 내보내기</span> → <span class="ui">공유</span>를 누릅니다.</li>
+              <li>만들어진 공개 링크 옆 <span class="ui">링크 복사</span>를 누릅니다.</li>
+              <li>학교 Google Workspace(교육용) 계정이라면 캔버스의 <span class="ui">Classroom에 공유</span> 버튼으로 Google Classroom 수업에 바로 올릴 수 있습니다.</li>
               <li>공유가 어렵다면 캔버스 코드를 복사해 <a href="#method2">방법 2</a>로 배포합니다.</li>
             </ol>
           </div>
@@ -647,7 +650,7 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
         <div class="step-body">
           <ol class="todo">
             <li><a href="https://vercel.com" target="_blank" rel="noopener">vercel.com</a>에서 <span class="ui">Sign Up</span> → <span class="ui">Continue with GitHub</span>로 가입·로그인합니다. (개인 사용은 Hobby 무료 요금제)</li>
-            <li>대시보드에서 <span class="ui">Add New…</span> → <span class="ui">Project</span>를 누릅니다.</li>
+            <li>대시보드에서 <span class="ui">Add New…</span> → <span class="ui">Project</span>를 누릅니다. (화면에 따라 <span class="ui">New Project</span> 버튼으로 보입니다.)</li>
             <li>GitHub 저장소 목록에서 방금 만든 저장소 옆 <span class="ui">Import</span>를 누릅니다. 목록에 없으면 <span class="ui">Adjust GitHub App Permissions</span>로 접근 권한을 허용합니다.</li>
             <li>설정 화면은 <b>아무것도 바꾸지 않고</b> <span class="ui">Deploy</span>를 누릅니다. (Framework Preset은 'Other'로 두면 됩니다.)</li>
             <li>1분 정도 기다리면 🎉 축하 화면과 함께 주소가 나옵니다. <span class="ui">Visit</span>을 눌러 확인하고, 주소를 복사합니다. 예: <code>https://plate-boundary-sim.vercel.app</code></li>
@@ -704,7 +707,7 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
               <tr><td>만든 곳</td><td>Anthropic</td><td>OpenAI</td></tr>
               <tr><td>쓰는 곳</td><td>터미널 · VS Code · 데스크톱 앱 · 웹</td><td>웹 · 데스크톱 앱 · 터미널 · VS Code</td></tr>
               <tr><td>규칙 파일</td><td><code>CLAUDE.md</code></td><td><code>AGENTS.md</code></td></tr>
-              <tr><td>필요한 구독</td><td>Claude 유료 플랜</td><td>ChatGPT 유료 플랜</td></tr>
+              <tr><td>필요한 구독</td><td>Claude Pro 이상 유료 플랜</td><td>ChatGPT 무료 플랜부터 가능 (넉넉히 쓰려면 Plus 이상)</td></tr>
             </tbody>
           </table>
 

@@ -3,7 +3,7 @@
 지구과학 교사를 위한 바이브 코딩(Vibe Coding) 단계별 안내 웹앱입니다.
 AI와 대화하며 교육용 웹앱을 만들고 학생과 공유하는 두 가지 방법을 소개합니다.
 
-- **방법 1 · 채팅으로 바로 만들기** — Gemini Canvas, ChatGPT Canvas, Claude Artifacts에서 만들고 링크로 공유
+- **방법 1 · 채팅으로 바로 만들기** — Gemini Canvas, ChatGPT 코드 블록 미리보기(Preview), Claude Artifacts에서 만들고 링크로 공유
 - **방법 2 · 코드를 만들어 배포하기** — AI가 만든 코드를 GitHub에 저장하고 Vercel로 배포
 - **핵심 원칙** — "바로 코드를 짜지 말고, 먼저 나와 충분히 대화한 다음에 코드를 짜줘"
 
