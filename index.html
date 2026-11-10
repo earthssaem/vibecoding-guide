@@ -714,7 +714,20 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
             </tbody>
           </table>
 
-          <div class="callout info" style="margin-top:1.4rem"><strong class="title">ℹ️ 어느 쪽을 고를까요?</strong><p>이미 쓰고 있는 AI 쪽을 고르면 됩니다. Claude를 쓰시면 Claude Code, ChatGPT를 쓰시면 Codex입니다.</p></div>
+          <div class="callout tip" style="margin-top:1.4rem">
+            <strong class="title">💡 Claude에 GitHub를 연결하면 · 말만 하면 저장소까지 반영됩니다</strong>
+            <p>Claude Code는 설치 없이 웹(<code>claude.ai/code</code>)이나 데스크톱·모바일 앱에서도 쓸 수 있습니다. GitHub 계정을 한 번 연결해 두면 5단계의 복사·붙여넣기를 Claude가 대신 합니다.</p>
+            <ol class="todo">
+              <li><code>claude.ai/code</code>에 접속해 <b>GitHub 계정을 연결</b>하고, Claude가 접근할 저장소를 허용합니다. (처음 한 번만)</li>
+              <li>작업할 <b>저장소를 고르고</b> 말로 요청합니다. "수렴 경계에 베니오프대 표시를 추가해 줘."</li>
+              <li>Claude가 파일을 직접 고치고 <b>커밋·푸시</b>합니다. 변경 내용은 먼저 별도의 작업 브랜치에 올라갑니다.</li>
+              <li>확인한 뒤 "<b>main에 머지해 줘</b>"라고 하면 main에 반영되고, Vercel이 자동으로 다시 배포합니다.</li>
+            </ol>
+            <p>매번 말하기 번거로우면 저장소의 <code>CLAUDE.md</code>에 "작업이 끝나면 main까지 머지한다"와 같은 규칙을 적어 둡니다.</p>
+            <p><b>헷갈리기 쉬운 점</b> · 일반 Claude 채팅에서 <span class="ui">+</span> → <span class="ui">Add from GitHub</span>로 저장소를 붙이는 연결은 코드를 <b>읽기만</b> 합니다. 설명이나 수정안은 받을 수 있지만 저장소에 직접 올려 주지는 않습니다. 직접 올리게 하려면 Claude Code에서 연결하세요.</p>
+          </div>
+
+          <div class="callout info"><strong class="title">ℹ️ 어느 쪽을 고를까요?</strong><p>이미 쓰고 있는 AI 쪽을 고르면 됩니다. Claude를 쓰시면 Claude Code, ChatGPT를 쓰시면 Codex입니다.</p></div>
           <div class="callout info"><strong class="title">ℹ️ 언제 넘어가면 좋을까요?</strong><p>파일이 여러 개로 늘어나거나, 수정이 잦아지거나, 여러 앱을 관리하게 될 때입니다. 처음에는 방법 2의 5단계까지로 충분합니다. 여기서도 원칙은 같습니다. <b>"바로 코드를 짜지 말고, 먼저 나와 대화해 줘."</b></p></div>
         </div>
       </div>
