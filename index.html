@@ -77,6 +77,7 @@
   .hero { padding-top: 3.8rem; padding-bottom: 3rem; text-align: center; }
   .hero .tag { display: inline-flex; align-items: center; gap: .4rem; background: var(--blue-soft); border: 2px solid var(--ink); border-radius: 999px; padding: .3rem 1rem; font-size: .85rem; font-weight: 800; margin-bottom: 1.2rem; }
   .hero .lead { margin: 0 auto 2.2rem; }
+  @media (max-width: 799px) { .hero .lead .br-wide { display: none; } } /* 좁은 화면은 자연스럽게 줄바꿈 */
   .paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.6rem; margin-top: 1rem; }
 
   /* 카드 공통 (허브 스타일) */
@@ -293,7 +294,7 @@
     <section class="hero wrap">
       <span class="tag">🌍 지구과학 교사를 위한 단계별 안내</span>
       <h1><mark>바이브 코딩</mark> 제작 방법</h1>
-      <p class="lead">코드를 몰라도 괜찮습니다. AI와 <b>충분히 대화하며</b> 수업에 딱 맞는 교육용 웹앱을 직접 만들고, 학생들과 공유하는 두 가지 방법을 단계별로 안내합니다.</p>
+      <p class="lead">코드를 몰라도 괜찮습니다. AI와 <b>충분히 대화하며</b> 수업에 딱 맞는 교육용 웹앱을 직접 만들고,<br class="br-wide"> 학생들과 공유하는 두 가지 방법을 단계별로 안내합니다.</p>
       <div class="paths">
         <a class="path-card p1" href="#method1">
           <div class="inner">
@@ -732,7 +733,7 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
             <li><b>스킬</b> · 자주 하는 작업 절차를 정해두고 명령 하나로 반복</li>
             <li><b>서브에이전트</b> · 큰 작업을 여러 AI에게 나누어 수행</li>
             <li><b>외부 서비스 연결(MCP)</b> · Google Drive 등 외부 자료와 연동</li>
-            <li><b>이미지 이해</b> · 손그림·캡처·오류 화면을 보고 그대로 제작·수정</li>
+            <li><b>이미지 이해</b> · 손그림이나 오류 화면 캡처를 보고 제작·수정</li>
             <li><b>클라우드 작업</b> · 긴 작업을 맡겨 두거나 여러 작업을 동시에 진행</li>
           </ul>
         </div>
@@ -826,11 +827,11 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
     <details><summary>코딩을 전혀 몰라도 정말 할 수 있나요?</summary><div class="body">네. 이 가이드의 모든 단계는 코드를 읽거나 쓰지 않습니다. 복사·붙여넣기와 버튼 클릭만 합니다. 중요한 것은 코드 지식이 아니라 "무엇을 만들지" 명확히 말하는 능력이고, 그것은 교사가 가장 잘하는 일입니다.</div></details>
     <details><summary>어떤 AI가 가장 좋은가요?</summary><div class="body">셋 다 교육용 웹앱을 만들기에 충분합니다. 이미 쓰고 있는 것을 쓰세요. 결과가 마음에 안 들면 같은 기획 요약을 다른 AI에 붙여넣어 비교해 보는 것도 좋은 방법입니다.</div></details>
     <details><summary>무료로 가능한가요?</summary><div class="body">네. AI 채팅 무료 요금제와 GitHub 무료 계정(GitHub Pages 포함)으로 모두 가능합니다. Vercel도 무료 플랜(Hobby)이 있지만 개인·비상업용이며, 사용량 한도를 넘기거나 상업적으로 쓰려면 유료 플랜이 필요합니다. AI 무료 요금제는 사용량 제한이 있어 긴 작업은 나눠서 하는 것이 좋습니다.</div></details>
-    <details><summary>학생 개인정보는 괜찮나요?</summary><div class="body">이 가이드의 기본 예시는 별도 서버 없이 브라우저에서만 실행되고, 학생 개인정보를 수집하지 않습니다. 다만 브라우저 저장 기능을 쓰거나 외부 서비스와 연동하면 정보가 기기에 저장되거나 외부로 전송될 수 있습니다. 학생 이름·점수 같은 개인정보를 수집하거나 저장하는 기능은 별도 검토가 필요하니, 처음에는 저장 기능 없이 만드세요.</div></details>
+    <details><summary>학생 개인정보는 괜찮나요?</summary><div class="body">이 가이드의 기본 예시는 별도 서버 없이 브라우저에서만 실행되고, 학생 개인정보를 수집하지 않습니다. 다만 브라우저 저장 기능을 쓰거나 외부 서비스와 연동하면 정보가 기기에 저장되거나 외부로 전송될 수 있습니다. 학생 이름·점수 같은 개인정보를 서버에 모으려면 <b>개인정보 수집·이용 동의서</b>를 먼저 받아야 합니다(만 14세 미만은 보호자 동의). 학교의 개인정보 보호 절차에 따른 검토도 필요하니, 처음에는 저장 기능 없이 만드세요.</div></details>
     <details><summary>AI가 만든 내용이 과학적으로 틀릴 수도 있나요?</summary><div class="body">네, 그럴듯하게 틀릴 수 있습니다. 반드시 교사가 직접 검토하세요. 프롬프트 모음의 "⑤ 과학적 검토 요청"을 쓰면 AI 스스로 점검하게 할 수도 있지만, 최종 확인은 교사의 몫입니다.</div></details>
     <details><summary>방법 1로 만든 것을 나중에 방법 2로 옮길 수 있나요?</summary><div class="body">네. 미리보기 화면이나 코드 블록에서 코드를 다운로드(또는 복사)해 <code>index.html</code>로 저장한 뒤, 방법 2의 3단계부터 진행하면 됩니다.</div></details>
     <details><summary>동료 교사와 같이 수정하고 싶어요</summary><div class="body">GitHub 저장소의 <span class="ui">Settings</span> → <span class="ui">Collaborators</span>에서 동료의 GitHub 계정을 추가하면 함께 파일을 수정할 수 있고, 누가 무엇을 바꿨는지 이력이 남습니다.</div></details>
-    <details><summary>손그림이나 캡처 화면도 보여줄 수 있나요?</summary><div class="body">네. 원하는 화면 구성을 종이에 그려 사진을 찍거나, 참고할 사이트를 캡처해 채팅에 첨부하면 훨씬 정확하게 만들어 줍니다. "이 그림처럼 배치해 줘"라고 말하세요.</div></details>
+    <details><summary>손그림이나 캡처 화면도 보여줄 수 있나요?</summary><div class="body">네. 원하는 화면 구성을 종이에 그려 사진을 찍어 첨부하면 훨씬 정확하게 만들어 줍니다. "이 그림처럼 배치해 줘"라고 말하세요. 다만 다른 사이트를 캡처해 그대로 따라 만들게 하면 디자인·글·이미지를 베끼게 되어 저작권 문제가 생길 수 있습니다. 다른 사이트는 아이디어만 참고하고, 원하는 배치는 손그림이나 말로 설명하세요.</div></details>
   </section>
 
 </main>
@@ -933,6 +934,8 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
   function onScroll() {
     var y = window.scrollY + Math.max(120, topbar.offsetHeight + 20), current = null;
     sections.forEach(function (s, i) { if (s && s.offsetTop <= y) current = i; });
+    // 맨 아래까지 내려오면(마지막 섹션이 위로 올라오지 못하는 큰 화면) 마지막 메뉴를 표시합니다.
+    if (Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight - 2) current = sections.length - 1;
     links.forEach(function (a, i) { a.classList.toggle('active', i === current); });
     totop.classList.toggle('show', window.scrollY > 600);
   }
