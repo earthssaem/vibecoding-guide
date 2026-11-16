@@ -66,6 +66,8 @@
   nav.menu a.active { background: var(--ink); color: #fff; border-color: var(--ink); }
 
   .wrap { max-width: 1160px; margin: 0 auto; padding: 0 1.4rem; }
+  /* 메뉴로 이동할 때 고정된 상단 메뉴에 제목이 가려지지 않게 (높이는 스크립트가 --topbar-h로 맞춤) */
+  section[id], #top { scroll-margin-top: var(--topbar-h, 64px); }
   section.block { padding-top: 4rem; padding-bottom: 2rem; }
   .eyebrow { display: inline-block; font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .6rem; }
   .lead { font-size: 1.1rem; color: var(--muted); max-width: 760px; }
@@ -167,6 +169,7 @@
   .step { overflow: hidden; }
   .m1 .step { --strip: var(--blue); }
   .m2 .step { --strip: var(--green); }
+  .m2 .step.optional { --strip: var(--yellow); }
   .step-head { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.4rem; border-bottom: 1.5px solid var(--line); }
   .step-num { width: 42px; height: 42px; border-radius: 12px; border: 2px solid var(--ink); display: grid; place-items: center; font-weight: 900; font-size: 1.1rem; flex-shrink: 0; background: var(--strip); }
   .step-head h3 { margin: 0; flex: 1; font-size: 1.15rem; }
@@ -415,7 +418,7 @@
         <ul>
           <li><b>대상</b>: 고2 지구과학, 암석의 순환·조암 광물 학습 후</li>
           <li><b>활동 1</b>: 암석 카드 12장을 화성암·퇴적암·변성암 상자에 드래그해 분류 (틀리면 흔들리며 되돌아감)</li>
-          <li><b>활동 2</b>: 화성암 6장을 조직(화산암/심성암)×조성(염기성/중성/산성) 표에 배치</li>
+          <li><b>활동 2</b>: 화성암 4장(현무암·반려암·유문암·화강암)을 조직(화산암/심성암)×조성(염기성/산성) 2×2 표에 배치</li>
           <li><b>카드 내용</b>: 암석 이름은 숨기고 색·조직·주요 광물·생성 환경 설명만 표시</li>
           <li><b>퀴즈</b>: 5문항 객관식, 즉시 채점과 해설</li>
           <li><b>환경</b>: 반응형(태블릿·스마트폰), 한국어, HTML 파일 1개</li>
@@ -464,7 +467,7 @@
         <div class="head"><span class="icon claude">C</span><div><b>Claude</b><div class="feature">Artifacts (아티팩트)</div></div></div>
         <dl>
           <dt>켜는 법</dt><dd>설정 → 기능(Capabilities)에서 <span class="ui">코드 실행 및 파일 생성</span> 켜기 (보통 기본으로 켜져 있음) → 웹앱을 요청하면 오른쪽에 아티팩트 화면이 열림</dd>
-          <dt>공유</dt><dd>아티팩트 우측 상단 <span class="ui">공유(Share)</span> → <span class="ui">링크가 있는 모든 사용자</span> 선택 → 링크 복사. 여는 사람도 Claude에 로그인해야 함</dd>
+          <dt>공유</dt><dd>아티팩트 우측 상단 <span class="ui">공유(Share)</span> → <span class="ui">링크가 있는 모든 사용자</span> 선택 → 링크 복사. 학생에게 보내기 전 로그인 없이 열리는지 확인</dd>
         </dl>
       </div>
     </div>
@@ -546,16 +549,17 @@ HTML 파일 하나에 CSS와 JavaScript를 모두 넣어서 만들어줘. 외부
             <ol class="todo">
               <li>아티팩트 화면 우측 상단의 <span class="ui">공유(Share)</span> 버튼을 누릅니다.</li>
               <li>접근 권한(Who has access)을 <span class="ui">링크가 있는 모든 사용자(Anyone with the link)</span>로 바꾸고 링크를 복사합니다.</li>
-              <li>이 링크는 <b>Claude에 로그인한 사람만</b> 열 수 있습니다. Claude는 만 18세 이상만 가입할 수 있어 학생 대부분은 열 수 없으므로, 학생용이라면 코드를 복사(또는 다운로드)해 <a href="#method2">방법 2</a>로 배포합니다. 동료 교사와 공유할 때는 그대로 써도 됩니다.</li>
-              <li>예전에 만든 아티팩트에 <span class="ui">게시(Publish)</span> 버튼이 보인다면, 게시해서 만든 공개 링크는 로그인 없이 열립니다.</li>
+              <li>이렇게 공유한 아티팩트는 대부분 로그인 없이 열립니다. 다만 아티팩트에 따라 로그인해야 내용이 보이거나, Claude AI를 쓰는 기능이 동작하지 않을 수 있습니다. 학생에게 보내기 전에 <b>시크릿 창</b>에서 로그인 없이 열리고 제대로 실행되는지 확인하세요.</li>
+              <li>로그인이 필요하거나 실행이 제한된다면 코드를 복사(또는 다운로드)해 <a href="#method2">방법 2</a>로 배포합니다. Claude는 만 18세 이상만 가입할 수 있어 학생 대부분은 로그인할 수 없습니다.</li>
+              <li>채팅에서 만든 예전 아티팩트에는 <span class="ui">공유</span> 대신 <span class="ui">게시(Publish)</span> 버튼이 보일 수 있습니다. 게시한 링크는 Claude 계정 없이 열 수 있고, Claude AI를 쓰는 기능을 쓸 때만 가입을 요청받습니다.</li>
             </ol>
           </div>
           <div class="tabpanel" data-panel="gpt">
             <ol class="todo">
-              <li>코드 블록(또는 Preview 화면)의 <span class="ui">공유</span> 버튼을 누르면 읽기 전용 링크가 만들어집니다. 계정·환경에 따라 버튼이 없을 수 있습니다.</li>
-              <li>공유 버튼이 없다면 AI에게 "<b>이 앱을 공유할 수 있는 링크를 만들어줘</b>"라고 요청하거나, 채팅 상단 <span class="ui">공유</span>로 대화 링크를 만듭니다.</li>
-              <li>그래도 어렵다면 코드 블록을 <b>복사</b>해 <a href="#method2">방법 2</a>로 배포합니다.</li>
-              <li>일부 유료 플랜에서는 <span class="ui">Sites</span>(베타) 기능으로 웹사이트를 바로 게시할 수도 있습니다. 무료·Go 플랜에서는 쓸 수 없습니다.</li>
+              <li>코드 블록(또는 Preview 화면)의 <span class="ui">공유</span> 버튼을 누르면 읽기 전용 링크가 만들어집니다. 버튼이 있는지, 받는 사람이 링크에서 앱을 바로 실행할 수 있는지는 계정·환경에 따라 다릅니다.</li>
+              <li>채팅 상단의 <span class="ui">공유</span>로 만드는 링크는 AI와 나눈 <b>대화</b>를 공유하는 것입니다. 웹앱을 따로 배포하는 기능과는 다릅니다.</li>
+              <li>링크를 만들었다면 <b>시크릿 창</b>에서 로그인 없이 앱이 실행되는지 확인합니다. 공유 버튼이 없거나 실행이 제한되면 코드 블록을 <b>복사</b>해 <a href="#method2">방법 2</a>로 배포합니다.</li>
+              <li>계정에 따라 웹사이트를 게시하는 <span class="ui">Sites</span> 기능이 보일 수도 있습니다. 이용할 수 있는 요금제와 공개 범위는 계정마다 다르니 화면 안내를 확인하세요.</li>
             </ol>
           </div>
           <div class="tabpanel" data-panel="gemini">
@@ -608,7 +612,7 @@ HTML 파일 하나에 CSS와 JavaScript를 모두 넣어서 만들어줘. 외부
       </div>
     </div>
 
-    <div class="progress"><span>진행률</span><div class="bar"><i></i></div><span class="pct">0/6</span><button type="button" class="reset">초기화</button></div>
+    <div class="progress"><span>진행률</span><div class="bar"><i></i></div><span class="pct">0/5</span><button type="button" class="reset">초기화</button></div>
 
     <div class="steps">
       <div class="step" data-key="m2-1">
@@ -634,8 +638,8 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
 완성된 코드 전체를 하나의 코드 블록으로 보여줘.</pre></div>
           <ol class="todo">
             <li>AI가 보여준 코드 블록 우측 상단의 <span class="ui">복사</span> 버튼을 누릅니다. (Canvas·Artifacts라면 <span class="ui">다운로드</span> 메뉴를 써도 됩니다.)</li>
-            <li>컴퓨터에서 <b>메모장</b>(Windows) 또는 <b>텍스트 편집기</b>(Mac)를 열고 붙여넣습니다.</li>
-            <li><span class="ui">다른 이름으로 저장</span> → 파일 이름을 정확히 <code>index.html</code>로, 인코딩은 <b>UTF-8</b>로 저장합니다. (메모장에서 파일 형식을 '모든 파일'로 바꿔야 <code>.txt</code>가 붙지 않습니다.)</li>
+            <li>컴퓨터에서 <b>메모장</b>(Windows) 또는 <b>텍스트 편집기</b>(Mac)를 열고 붙여넣습니다. Mac 텍스트 편집기는 먼저 <span class="ui">포맷</span> → <span class="ui">일반 텍스트로 만들기</span>(<code>Cmd+Shift+T</code>)를 눌러 일반 텍스트로 바꿉니다.</li>
+            <li><span class="ui">다른 이름으로 저장</span> → 파일 이름을 정확히 <code>index.html</code>로, 인코딩은 <b>UTF-8</b>로 저장합니다. (메모장에서 파일 형식을 '모든 파일'로 바꿔야 <code>.txt</code>가 붙지 않습니다. Mac에서 확장자를 물으면 <code>.html</code>을 사용하도록 고릅니다.)</li>
             <li>저장한 파일을 <b>더블클릭</b>하면 브라우저에서 열립니다. 판이 움직이는지, 경계를 바꾸면 단면도가 바뀌는지 확인합니다.</li>
           </ol>
           <div class="callout tip"><strong class="title">💡 왜 파일 하나로 만드나요?</strong><p>파일이 하나면 GitHub에 올리고 관리하기가 가장 쉽습니다. 파일 이름이 <code>index.html</code>이어야 주소만 입력해도 그 페이지가 열립니다. 한글이 깨지면 "UTF-8로 저장했는지" 먼저 확인하세요.</p></div>
@@ -649,10 +653,11 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
             <li><a href="https://github.com" target="_blank" rel="noopener">github.com</a>에 로그인하고, 우측 상단 <span class="ui">＋</span> → <span class="ui">New repository</span>를 누릅니다.</li>
             <li><b>Repository name</b>에 영문 이름을 입력합니다. 예: <code>plate-boundary-sim</code> (띄어쓰기 대신 <code>-</code> 사용)</li>
             <li><span class="ui">Public</span>을 선택하고 <span class="ui">Create repository</span>를 누릅니다. 다른 설정은 건드리지 않아도 됩니다.</li>
-            <li>새 저장소 화면에서 <span class="ui">uploading an existing file</span> 링크를 누릅니다.</li>
+            <li>새 저장소 화면에서 <span class="ui">uploading an existing file</span> 링크를 누릅니다. (파일이 이미 있는 저장소라면 <span class="ui">Add file</span> → <span class="ui">Upload files</span>를 누릅니다.)</li>
             <li>2단계에서 저장한 <code>index.html</code>을 <b>드래그해서 놓습니다.</b></li>
             <li>아래 <span class="ui">Commit changes</span> 버튼을 누릅니다. 이제 코드가 GitHub에 저장되었습니다.</li>
           </ol>
+          <div class="callout warn"><strong class="title">⚠️ Public 저장소는 누구나 볼 수 있습니다</strong><p>Public 저장소는 누구나 코드를 볼 수 있으므로 학생 개인정보, 비밀번호, API 키 등 민감한 정보를 업로드하지 마세요.</p></div>
           <div class="callout info"><strong class="title">ℹ️ 커밋(commit)이란?</strong><p>"이 상태로 저장" 버튼입니다. 파일을 올리거나 고칠 때마다 커밋을 하며, 모든 커밋 이력이 남아 언제든 이전 버전으로 돌아갈 수 있습니다. 이것이 <b>버전 관리</b>입니다.</p></div>
         </div>
       </div>
@@ -666,6 +671,7 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
             <button type="button" data-tab="vercel">② Vercel · 확장 방법</button>
           </div>
           <div class="tabpanel active" data-panel="pages">
+            <p>아래 순서는 <b><code>index.html</code> 파일 하나로 만든 웹앱</b> 기준입니다.</p>
             <ol class="todo">
               <li>3단계에서 만든 저장소 화면 상단의 <span class="ui">⚙️ Settings</span>를 누릅니다.</li>
               <li>왼쪽 메뉴에서 <span class="ui">Pages</span>를 누릅니다.</li>
@@ -675,7 +681,7 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
               <li>1~2분(길면 10분) 기다린 뒤 새로고침하면 위쪽에 배포 주소가 나옵니다. <span class="ui">Visit site</span>를 눌러 확인하고, 주소를 복사합니다. 예: <code>https://사용자이름.github.io/plate-boundary-sim/</code></li>
             </ol>
             <div class="callout tip"><strong class="title">💡 배포 주소 형식</strong><p><code>https://사용자이름.github.io/저장소이름/</code> 형식입니다. 주소는 언제든 저장소의 <span class="ui">Settings</span> → <span class="ui">Pages</span>에서 다시 확인할 수 있습니다.</p></div>
-            <div class="callout info"><strong class="title">ℹ️ GitHub Pages는 정적 웹사이트 배포 서비스입니다</strong><p>올린 HTML·CSS·JavaScript 파일을 그대로 보여 줄 뿐, 서버에서 코드를 실행하거나 데이터를 저장하지 않습니다. 무료 계정은 저장소가 Public이어야 합니다. React·Vite 프로젝트는 빌드 결과물을 올리고 <code>base</code> 경로를 설정해야 할 수 있으니, AI에게 "GitHub Pages로 배포할 수 있게 설정해 줘"라고 요청하세요. 자세한 내용은 <a href="https://docs.github.com/en/pages" target="_blank" rel="noopener">GitHub Pages 공식 문서</a>를 참고합니다.</p></div>
+            <div class="callout info"><strong class="title">ℹ️ GitHub Pages는 정적 웹사이트 배포 서비스입니다</strong><p>올린 HTML·CSS·JavaScript 파일을 그대로 보여 줄 뿐, 서버에서 코드를 실행하거나 데이터를 저장하지 않습니다. 무료 계정은 저장소가 Public이어야 합니다. React·Vite 프로젝트는 별도의 빌드와 경로(<code>base</code>) 설정이 필요하니, AI에게 "GitHub Pages로 배포할 수 있게 설정해 줘"라고 요청하세요. 자세한 내용은 <a href="https://docs.github.com/en/pages" target="_blank" rel="noopener">GitHub Pages 공식 문서</a>를 참고합니다.</p></div>
           </div>
           <div class="tabpanel" data-panel="vercel">
             <p>GitHub Pages보다 다양한 프로젝트를 배포할 수 있습니다. React·Vite처럼 빌드가 필요한 프로젝트를 자동으로 빌드하고, 서버리스 함수나 API 연동이 필요한 경우에도 활용할 수 있습니다.</p>
@@ -700,65 +706,69 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
             <li>AI 채팅으로 돌아가 수정을 요청합니다. "<b>다른 부분은 그대로 두고</b> 수렴 경계에 지진 발생 위치(베니오프대)만 추가해서, 전체 코드를 다시 보여줘."</li>
             <li>새 코드 전체를 복사합니다.</li>
             <li>GitHub 저장소에서 <code>index.html</code>을 클릭 → 우측 상단 <span class="ui">✏️ (Edit)</span> 연필 아이콘을 누릅니다.</li>
-            <li>기존 내용을 전체 선택(<code>Ctrl+A</code>)해 지우고 새 코드를 붙여넣습니다.</li>
+            <li>기존 내용을 전체 선택(<code>Ctrl+A</code>, Mac은 <code>Cmd+A</code>)해 지우고 새 코드를 붙여넣습니다.</li>
             <li><span class="ui">Commit changes…</span> → 무엇을 바꿨는지 짧게 적고(예: "베니오프대 표시 추가") → <span class="ui">Commit changes</span>.</li>
             <li>GitHub Pages나 Vercel이 변경을 감지해 <b>자동으로 다시 배포</b>합니다. 1~2분 뒤 같은 주소를 새로고침하면 반영되어 있습니다.</li>
           </ol>
-          <div class="callout warn"><strong class="title">⚠️ 바뀐 게 안 보여요</strong><p>브라우저가 이전 화면을 기억하고 있을 수 있습니다. <code>Ctrl+Shift+R</code>(강력 새로고침) 또는 시크릿 창으로 열어 보세요. 배포 상태도 확인합니다. GitHub Pages는 저장소의 <span class="ui">Actions</span> 탭에 초록색 체크(✓)가 떴는지, Vercel은 대시보드의 <span class="ui">Deployments</span>에서 배포 상태가 <b>Ready</b>인지 봅니다.</p></div>
+          <div class="callout warn"><strong class="title">⚠️ 바뀐 게 안 보여요</strong><p>브라우저가 이전 화면을 기억하고 있을 수 있습니다. <code>Ctrl+Shift+R</code>(Mac은 <code>Cmd+Shift+R</code>, 강력 새로고침) 또는 시크릿 창으로 열어 보세요. 배포 상태도 확인합니다. GitHub Pages는 저장소의 <span class="ui">Actions</span> 탭에 초록색 체크(✓)가 떴는지, Vercel은 대시보드의 <span class="ui">Deployments</span>에서 배포 상태가 <b>Ready</b>인지 봅니다.</p></div>
         </div>
       </div>
 
-      <div class="step" data-key="m2-6">
-        <div class="step-head"><span class="step-num">6</span><h3>심화 · Claude Code, Codex로 자동화하기 (선택)</h3><label><input type="checkbox"> 완료</label></div>
-        <div class="step-body">
-          <p>위 과정이 익숙해지면, AI가 <b>코드 작성부터 GitHub 저장까지 직접</b> 하게 할 수 있습니다. 복사·붙여넣기가 사라집니다.</p>
-          <div class="card">
-            <h3>코딩 에이전트가 해주는 일</h3>
-            <ul class="checklist two-col" style="font-size:.95rem">
-              <li><b>내 컴퓨터 폴더 연결</b> · 폴더 안 파일을 직접 읽고 수정</li>
-              <li><b>GitHub 연결</b> · 커밋·푸시·PR까지 대신 처리</li>
-              <li><b>실행·검증</b> · 명령어와 테스트를 돌려 실제로 작동하는지 확인</li>
-              <li><b>규칙 파일</b> · 학년·언어 등 프로젝트 조건을 기억</li>
-              <li><b>스킬</b> · 자주 하는 작업 절차를 정해두고 명령 하나로 반복</li>
-              <li><b>서브에이전트</b> · 큰 작업을 여러 AI에게 나누어 수행</li>
-              <li><b>외부 서비스 연결(MCP)</b> · Google Drive 등 외부 자료와 연동</li>
-              <li><b>이미지 이해</b> · 손그림·캡처·오류 화면을 보고 그대로 제작·수정</li>
-              <li><b>클라우드 작업</b> · 긴 작업을 맡겨 두거나 여러 작업을 동시에 진행</li>
-            </ul>
-          </div>
+    </div>
 
-          <table class="compare agents" style="margin-top:1.4rem">
-            <thead>
-              <tr>
-                <th>항목</th>
-                <th><span class="th-tool"><span class="icon claude">C</span>Claude Code</span></th>
-                <th><span class="th-tool"><span class="icon codex">C</span>Codex</span></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>만든 곳</td><td>Anthropic</td><td>OpenAI</td></tr>
-              <tr><td>쓰는 곳</td><td>터미널 · VS Code · 데스크톱 앱 · 웹</td><td>웹 · 데스크톱 앱 · 터미널 · VS Code</td></tr>
-              <tr><td>규칙 파일</td><td><code>CLAUDE.md</code></td><td><code>AGENTS.md</code></td></tr>
-              <tr><td>필요한 구독</td><td>Claude Pro 이상 유료 플랜</td><td>ChatGPT 무료 플랜부터 가능 (넉넉히 쓰려면 Plus 이상)</td></tr>
-            </tbody>
-          </table>
-
-          <div class="callout tip" style="margin-top:1.4rem">
-            <strong class="title">💡 Claude Code에 GitHub를 연결하면 · 말만 하면 저장소까지 반영됩니다</strong>
-            <p>Claude Code는 설치 없이 웹(<code>claude.ai/code</code>)이나 데스크톱·모바일 앱에서도 쓸 수 있습니다. GitHub 계정을 한 번 연결해 두면 5단계의 복사·붙여넣기를 Claude Code가 대신 합니다.</p>
-            <ol class="todo">
-              <li><code>claude.ai/code</code>에 접속해 <b>GitHub 계정을 연결</b>하고, Claude Code가 접근할 저장소를 허용합니다. (처음 한 번만)</li>
-              <li>작업할 <b>저장소를 고르고</b> 말로 요청합니다. "수렴 경계에 베니오프대 표시를 추가해 줘."</li>
-              <li>Claude Code가 파일을 직접 고치고 <b>커밋·푸시</b>합니다. 변경 내용은 먼저 별도의 작업 브랜치에 올라갑니다.</li>
-              <li>확인한 뒤 "<b>main에 머지해 줘</b>"라고 하면 main에 반영되고, GitHub Pages나 Vercel이 자동으로 다시 배포합니다.</li>
-            </ol>
-            <p>매번 말하기 번거로우면 저장소의 <code>CLAUDE.md</code>에 "작업이 끝나면 main까지 머지한다"와 같은 규칙을 적어 둡니다.</p>
-            <p><b>Claude 채팅에서도 되나요?</b> · 됩니다. GitHub가 연결되어 있으면 Claude 앱의 채팅에서도 "이 저장소를 고쳐서 main에 머지해 줘"라고 요청할 수 있습니다. 다만 계정이나 사용 환경에 따라 채팅에서는 안 될 수 있으니, 그럴 때는 <code>claude.ai/code</code>에서 하면 됩니다. 채팅창의 <span class="ui">+</span> → <span class="ui">Add from GitHub</span>는 코드를 읽어 오는 <b>첨부 기능</b>이라, 이것만으로는 저장소에 올라가지 않습니다.</p>
-          </div>
-
-          <div class="callout info"><strong class="title">ℹ️ 어느 쪽을 고를까요?</strong><p>이미 쓰고 있는 AI 쪽을 고르면 됩니다. Claude를 쓰시면 Claude Code, ChatGPT를 쓰시면 Codex입니다.</p></div>
-          <div class="callout info"><strong class="title">ℹ️ 언제 넘어가면 좋을까요?</strong><p>파일이 여러 개로 늘어나거나, 수정이 잦아지거나, 여러 앱을 관리하게 될 때입니다. 처음에는 방법 2의 5단계까지로 충분합니다. 여기서도 원칙은 같습니다. <b>"바로 코드를 짜지 말고, 먼저 나와 대화해 줘."</b></p></div>
+    <h3 style="margin-top:2.6rem">선택 심화 과정</h3>
+    <p style="color:var(--muted)">기본 5단계가 익숙해진 뒤 필요할 때 보세요. 진행률에는 들어가지 않습니다.</p>
+    <div class="step optional">
+      <div class="step-head"><span class="step-num">＋</span><h3>Claude Code, Codex로 자동화하기</h3><span class="pill y">선택</span></div>
+      <div class="step-body">
+        <p>위 과정이 익숙해지면, AI가 <b>코드 작성부터 GitHub 저장까지 직접</b> 하게 할 수 있습니다. 복사·붙여넣기가 사라집니다.</p>
+        <div class="card">
+          <h3>코딩 에이전트가 해주는 일</h3>
+          <ul class="checklist two-col" style="font-size:.95rem">
+            <li><b>내 컴퓨터 폴더 연결</b> · 폴더 안 파일을 직접 읽고 수정</li>
+            <li><b>GitHub 연결</b> · 커밋·푸시·PR까지 대신 처리</li>
+            <li><b>실행·검증</b> · 명령어와 테스트를 돌려 실제로 작동하는지 확인</li>
+            <li><b>규칙 파일</b> · 학년·언어 등 프로젝트 조건을 기억</li>
+            <li><b>스킬</b> · 자주 하는 작업 절차를 정해두고 명령 하나로 반복</li>
+            <li><b>서브에이전트</b> · 큰 작업을 여러 AI에게 나누어 수행</li>
+            <li><b>외부 서비스 연결(MCP)</b> · Google Drive 등 외부 자료와 연동</li>
+            <li><b>이미지 이해</b> · 손그림·캡처·오류 화면을 보고 그대로 제작·수정</li>
+            <li><b>클라우드 작업</b> · 긴 작업을 맡겨 두거나 여러 작업을 동시에 진행</li>
+          </ul>
         </div>
+
+        <table class="compare agents" style="margin-top:1.4rem">
+          <thead>
+            <tr>
+              <th>항목</th>
+              <th><span class="th-tool"><span class="icon claude">C</span>Claude Code</span></th>
+              <th><span class="th-tool"><span class="icon codex">C</span>Codex</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>만든 곳</td><td>Anthropic</td><td>OpenAI</td></tr>
+            <tr><td>쓰는 곳</td><td>터미널 · VS Code · 데스크톱 앱 · 웹</td><td>웹 · 데스크톱 앱 · 터미널 · VS Code</td></tr>
+            <tr><td>규칙 파일</td><td><code>CLAUDE.md</code></td><td><code>AGENTS.md</code></td></tr>
+            <tr><td>필요한 구독</td><td>Claude Pro 이상 유료 플랜</td><td>ChatGPT 무료 플랜부터 가능 (넉넉히 쓰려면 Plus 이상)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout tip" style="margin-top:1.4rem">
+          <strong class="title">💡 Claude Code에 GitHub를 연결하면 · 말만 하면 저장소까지 반영됩니다</strong>
+          <p>Claude Code는 설치 없이 웹(<code>claude.ai/code</code>)이나 데스크톱·모바일 앱에서도 쓸 수 있습니다. GitHub 계정을 한 번 연결해 두면 5단계의 복사·붙여넣기를 Claude Code가 대신 합니다.</p>
+          <ol class="todo">
+            <li><code>claude.ai/code</code>에 접속해 <b>GitHub 계정을 연결</b>하고, Claude Code가 접근할 저장소를 허용합니다. (처음 한 번만)</li>
+            <li>작업할 <b>저장소를 고르고</b> 말로 요청합니다. "수렴 경계에 베니오프대 표시를 추가해 줘."</li>
+            <li>Claude Code가 파일을 직접 고치고 <b>커밋·푸시</b>합니다. 변경 내용은 먼저 별도의 작업 브랜치에 올라갑니다.</li>
+            <li>바뀐 내용을 확인한 뒤 "<b>main에 머지해 줘</b>"라고 하면 main에 반영되고, GitHub Pages나 Vercel이 자동으로 다시 배포합니다.</li>
+          </ol>
+          <p>매번 말하기 번거로우면 저장소의 <code>CLAUDE.md</code>에 "작업이 끝나면 main까지 머지한다"와 같은 규칙을 적어 둡니다.</p>
+          <p><b>Claude 채팅에서도 되나요?</b> · 됩니다. GitHub가 연결되어 있으면 Claude 앱의 채팅에서도 "이 저장소를 고쳐서 main에 머지해 줘"라고 요청할 수 있습니다. 다만 계정이나 사용 환경에 따라 채팅에서는 안 될 수 있으니, 그럴 때는 <code>claude.ai/code</code>에서 하면 됩니다. 채팅창의 <span class="ui">+</span> → <span class="ui">Add from GitHub</span>는 코드를 읽어 오는 <b>첨부 기능</b>이라, 이것만으로는 저장소에 올라가지 않습니다.</p>
+        </div>
+
+        <div class="callout warn"><strong class="title">⚠️ 병합하기 전에 바뀐 내용을 확인하세요</strong><p>Claude Code나 Codex가 고친 코드는 보통 작업 브랜치나 PR(Pull request)로 올라옵니다. GitHub의 PR 화면에서 <span class="ui">Files changed</span> 탭으로 무엇이 바뀌었는지 확인한 뒤 <span class="ui">Merge pull request</span>로 병합하세요.</p></div>
+        <div class="callout info"><strong class="title">ℹ️ 어느 쪽을 고를까요?</strong><p>이미 쓰고 있는 AI 쪽을 고르면 됩니다. Claude를 쓰시면 Claude Code, ChatGPT를 쓰시면 Codex입니다.</p></div>
+        <div class="callout info"><strong class="title">ℹ️ 언제 넘어가면 좋을까요?</strong><p>파일이 여러 개로 늘어나거나, 수정이 잦아지거나, 여러 앱을 관리하게 될 때입니다. 처음에는 방법 2의 5단계까지로 충분합니다. 여기서도 원칙은 같습니다. <b>"바로 코드를 짜지 말고, 먼저 나와 대화해 줘."</b></p></div>
       </div>
     </div>
 
@@ -816,7 +826,7 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
     <details><summary>코딩을 전혀 몰라도 정말 할 수 있나요?</summary><div class="body">네. 이 가이드의 모든 단계는 코드를 읽거나 쓰지 않습니다. 복사·붙여넣기와 버튼 클릭만 합니다. 중요한 것은 코드 지식이 아니라 "무엇을 만들지" 명확히 말하는 능력이고, 그것은 교사가 가장 잘하는 일입니다.</div></details>
     <details><summary>어떤 AI가 가장 좋은가요?</summary><div class="body">셋 다 교육용 웹앱을 만들기에 충분합니다. 이미 쓰고 있는 것을 쓰세요. 결과가 마음에 안 들면 같은 기획 요약을 다른 AI에 붙여넣어 비교해 보는 것도 좋은 방법입니다.</div></details>
     <details><summary>무료로 가능한가요?</summary><div class="body">네. AI 채팅 무료 요금제와 GitHub 무료 계정(GitHub Pages 포함)으로 모두 가능합니다. Vercel도 무료 플랜(Hobby)이 있지만 개인·비상업용이며, 사용량 한도를 넘기거나 상업적으로 쓰려면 유료 플랜이 필요합니다. AI 무료 요금제는 사용량 제한이 있어 긴 작업은 나눠서 하는 것이 좋습니다.</div></details>
-    <details><summary>학생 개인정보는 괜찮나요?</summary><div class="body">이 가이드의 방식은 로그인 없이 브라우저에서만 실행되는 웹앱이므로 학생 정보가 어디에도 저장되지 않습니다. 학생 이름·점수를 저장하는 기능을 추가하려면 별도 검토가 필요하니, 처음에는 저장 기능 없이 만드세요.</div></details>
+    <details><summary>학생 개인정보는 괜찮나요?</summary><div class="body">이 가이드의 기본 예시는 별도 서버 없이 브라우저에서만 실행되고, 학생 개인정보를 수집하지 않습니다. 다만 브라우저 저장 기능을 쓰거나 외부 서비스와 연동하면 정보가 기기에 저장되거나 외부로 전송될 수 있습니다. 학생 이름·점수 같은 개인정보를 수집하거나 저장하는 기능은 별도 검토가 필요하니, 처음에는 저장 기능 없이 만드세요.</div></details>
     <details><summary>AI가 만든 내용이 과학적으로 틀릴 수도 있나요?</summary><div class="body">네, 그럴듯하게 틀릴 수 있습니다. 반드시 교사가 직접 검토하세요. 프롬프트 모음의 "⑤ 과학적 검토 요청"을 쓰면 AI 스스로 점검하게 할 수도 있지만, 최종 확인은 교사의 몫입니다.</div></details>
     <details><summary>방법 1로 만든 것을 나중에 방법 2로 옮길 수 있나요?</summary><div class="body">네. 미리보기 화면이나 코드 블록에서 코드를 다운로드(또는 복사)해 <code>index.html</code>로 저장한 뒤, 방법 2의 3단계부터 진행하면 됩니다.</div></details>
     <details><summary>동료 교사와 같이 수정하고 싶어요</summary><div class="body">GitHub 저장소의 <span class="ui">Settings</span> → <span class="ui">Collaborators</span>에서 동료의 GitHub 계정을 추가하면 함께 파일을 수정할 수 있고, 누가 무엇을 바꿨는지 이력이 남습니다.</div></details>
@@ -863,9 +873,14 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
   var store = {};
   try { store = JSON.parse(localStorage.getItem('vibe-guide-progress') || '{}'); } catch (e) { store = {}; }
   function save() { try { localStorage.setItem('vibe-guide-progress', JSON.stringify(store)); } catch (e) {} }
+  // 지금 페이지에 없는 단계의 저장 기록(예: 예전 방법 2의 6단계 'm2-6')은 지워서 진행률에 섞이지 않게 합니다.
+  var validKeys = {};
+  document.querySelectorAll('.steps > .step[data-key]').forEach(function (s) { validKeys[s.dataset.key] = true; });
+  Object.keys(store).forEach(function (k) { if (!validKeys[k]) delete store[k]; });
+  save();
 
   document.querySelectorAll('section.m1, section.m2').forEach(function (sec) {
-    var steps = sec.querySelectorAll('.step');
+    var steps = sec.querySelectorAll('.steps > .step[data-key]'); // 번호 단계만 (선택 심화 과정 제외)
     var bar = sec.querySelector('.progress .bar i');
     var pct = sec.querySelector('.progress .pct');
     function refresh() {
@@ -911,8 +926,12 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
   var links = document.querySelectorAll('nav.menu a');
   var sections = Array.prototype.map.call(links, function (a) { return document.querySelector(a.getAttribute('href')); });
   var totop = document.querySelector('.totop');
+  var topbar = document.querySelector('.topbar');
+  function setTopbarHeight() { document.documentElement.style.setProperty('--topbar-h', topbar.offsetHeight + 'px'); }
+  setTopbarHeight();
+  window.addEventListener('resize', setTopbarHeight);
   function onScroll() {
-    var y = window.scrollY + 120, current = null;
+    var y = window.scrollY + Math.max(120, topbar.offsetHeight + 20), current = null;
     sections.forEach(function (s, i) { if (s && s.offsetTop <= y) current = i; });
     links.forEach(function (a, i) { a.classList.toggle('active', i === current); });
     totop.classList.toggle('show', window.scrollY > 600);
