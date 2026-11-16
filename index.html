@@ -594,7 +594,7 @@ HTML 파일 하나에 CSS와 JavaScript를 모두 넣어서 만들어줘. 외부
         <ul class="checklist" style="margin-top:.2rem">
           <li>AI 채팅 계정 (Gemini·ChatGPT·Claude)</li>
           <li><a href="https://github.com/signup" target="_blank" rel="noopener">GitHub 계정</a> (무료)</li>
-          <li><a href="https://vercel.com/signup" target="_blank" rel="noopener">Vercel 계정</a> (GitHub 계정으로 가입, 무료)</li>
+          <li><a href="https://vercel.com/signup" target="_blank" rel="noopener">Vercel 계정</a> (Vercel로 배포할 때만 · GitHub 계정으로 가입, 무료)</li>
         </ul>
       </div>
     </div>
@@ -649,16 +649,36 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
       </div>
 
       <div class="step" data-key="m2-4">
-        <div class="step-head"><span class="step-num">4</span><h3>Vercel에 연결하고 배포합니다</h3><label><input type="checkbox"> 완료</label></div>
+        <div class="step-head"><span class="step-num">4</span><h3>GitHub Pages 또는 Vercel로 배포합니다</h3><label><input type="checkbox"> 완료</label></div>
         <div class="step-body">
-          <ol class="todo">
-            <li><a href="https://vercel.com" target="_blank" rel="noopener">vercel.com</a>에서 <span class="ui">Sign Up</span> → <span class="ui">Continue with GitHub</span>로 가입·로그인합니다. (개인 사용은 Hobby 무료 요금제)</li>
-            <li>대시보드에서 <span class="ui">Add New…</span> → <span class="ui">Project</span>를 누릅니다. (화면에 따라 <span class="ui">New Project</span> 버튼으로 보입니다.)</li>
-            <li>GitHub 저장소 목록에서 방금 만든 저장소 옆 <span class="ui">Import</span>를 누릅니다. 목록에 없으면 <span class="ui">Adjust GitHub App Permissions</span>로 접근 권한을 허용합니다.</li>
-            <li>설정 화면은 <b>아무것도 바꾸지 않고</b> <span class="ui">Deploy</span>를 누릅니다. (Framework Preset은 'Other'로 두면 됩니다.)</li>
-            <li>1분 정도 기다리면 🎉 축하 화면과 함께 주소가 나옵니다. <span class="ui">Visit</span>을 눌러 확인하고, 주소를 복사합니다. 예: <code>https://plate-boundary-sim.vercel.app</code></li>
-          </ol>
-          <div class="callout tip"><strong class="title">💡 주소를 예쁘게 바꾸려면</strong><p>Vercel 프로젝트의 <span class="ui">Settings</span> → <span class="ui">Domains</span>에서 <code>원하는이름.vercel.app</code>으로 바꿀 수 있습니다. (이미 누가 쓰는 이름은 안 됩니다.)</p></div>
+          <p>저장소의 코드를 인터넷 주소로 공개합니다. 이 가이드처럼 <code>index.html</code> 하나로 만든 웹앱은 <b>GitHub Pages</b>로 바로 배포할 수 있습니다. 더 다양한 기능이 필요해지면 <b>Vercel</b>을 씁니다.</p>
+          <div class="tabs" data-tabs="deploy">
+            <button type="button" class="active" data-tab="pages">① GitHub Pages · 기본 방법</button>
+            <button type="button" data-tab="vercel">② Vercel · 확장 방법</button>
+          </div>
+          <div class="tabpanel active" data-panel="pages">
+            <ol class="todo">
+              <li>3단계에서 만든 저장소 화면 상단의 <span class="ui">⚙️ Settings</span>를 누릅니다.</li>
+              <li>왼쪽 메뉴에서 <span class="ui">Pages</span>를 누릅니다.</li>
+              <li><b>Build and deployment</b>의 Source에서 <span class="ui">Deploy from a branch</span>를 선택합니다.</li>
+              <li>Branch는 <span class="ui">main</span>, 폴더는 <span class="ui">/ (root)</span>를 선택합니다.</li>
+              <li><span class="ui">Save</span>를 누릅니다.</li>
+              <li>1~2분(길면 10분) 기다린 뒤 새로고침하면 위쪽에 배포 주소가 나옵니다. <span class="ui">Visit site</span>를 눌러 확인하고, 주소를 복사합니다. 예: <code>https://사용자이름.github.io/plate-boundary-sim/</code></li>
+            </ol>
+            <div class="callout tip"><strong class="title">💡 배포 주소 형식</strong><p><code>https://사용자이름.github.io/저장소이름/</code> 형식입니다. 주소는 언제든 저장소의 <span class="ui">Settings</span> → <span class="ui">Pages</span>에서 다시 확인할 수 있습니다.</p></div>
+            <div class="callout info"><strong class="title">ℹ️ GitHub Pages는 정적 웹사이트 배포 서비스입니다</strong><p>올린 HTML·CSS·JavaScript 파일을 그대로 보여 줄 뿐, 서버에서 코드를 실행하거나 데이터를 저장하지 않습니다. 무료 계정은 저장소가 Public이어야 합니다. React·Vite 프로젝트는 빌드 결과물을 올리고 <code>base</code> 경로를 설정해야 할 수 있으니, AI에게 "GitHub Pages로 배포할 수 있게 설정해 줘"라고 요청하세요. 자세한 내용은 <a href="https://docs.github.com/en/pages" target="_blank" rel="noopener">GitHub Pages 공식 문서</a>를 참고합니다.</p></div>
+          </div>
+          <div class="tabpanel" data-panel="vercel">
+            <p>GitHub Pages보다 다양한 프로젝트를 배포할 수 있습니다. React·Vite처럼 빌드가 필요한 프로젝트를 자동으로 빌드하고, 서버리스 함수나 API 연동이 필요한 경우에도 활용할 수 있습니다.</p>
+            <ol class="todo">
+              <li><a href="https://vercel.com" target="_blank" rel="noopener">vercel.com</a>에서 <span class="ui">Sign Up</span> → <span class="ui">Continue with GitHub</span>로 가입·로그인합니다. (개인 사용은 Hobby 무료 요금제)</li>
+              <li>대시보드에서 <span class="ui">Add New…</span> → <span class="ui">Project</span>를 누릅니다. (화면에 따라 <span class="ui">New Project</span> 버튼으로 보입니다.)</li>
+              <li>GitHub 저장소 목록에서 방금 만든 저장소 옆 <span class="ui">Import</span>를 누릅니다. 목록에 없으면 <span class="ui">Adjust GitHub App Permissions</span>로 접근 권한을 허용합니다.</li>
+              <li>설정 화면은 <b>아무것도 바꾸지 않고</b> <span class="ui">Deploy</span>를 누릅니다. (Framework Preset은 'Other'로 두면 됩니다.)</li>
+              <li>1분 정도 기다리면 🎉 축하 화면과 함께 주소가 나옵니다. <span class="ui">Visit</span>을 눌러 확인하고, 주소를 복사합니다. 예: <code>https://plate-boundary-sim.vercel.app</code></li>
+            </ol>
+            <div class="callout tip"><strong class="title">💡 주소를 예쁘게 바꾸려면</strong><p>Vercel 프로젝트의 <span class="ui">Settings</span> → <span class="ui">Domains</span>에서 <code>원하는이름.vercel.app</code>으로 바꿀 수 있습니다. (이미 누가 쓰는 이름은 안 됩니다.)</p></div>
+          </div>
           <div class="callout ok"><strong class="title">🎉 완성!</strong><p>이 주소는 계속 유지됩니다. 학생, 동료 교사 누구나 로그인 없이 열 수 있습니다. QR코드로 만들어 수업 자료에 넣어 두세요.</p></div>
         </div>
       </div>
@@ -673,9 +693,9 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
             <li>GitHub 저장소에서 <code>index.html</code>을 클릭 → 우측 상단 <span class="ui">✏️ (Edit)</span> 연필 아이콘을 누릅니다.</li>
             <li>기존 내용을 전체 선택(<code>Ctrl+A</code>)해 지우고 새 코드를 붙여넣습니다.</li>
             <li><span class="ui">Commit changes…</span> → 무엇을 바꿨는지 짧게 적고(예: "베니오프대 표시 추가") → <span class="ui">Commit changes</span>.</li>
-            <li>Vercel이 변경을 감지해 <b>자동으로 다시 배포</b>합니다. 1분 뒤 같은 주소를 새로고침하면 반영되어 있습니다.</li>
+            <li>GitHub Pages나 Vercel이 변경을 감지해 <b>자동으로 다시 배포</b>합니다. 1~2분 뒤 같은 주소를 새로고침하면 반영되어 있습니다.</li>
           </ol>
-          <div class="callout warn"><strong class="title">⚠️ 바뀐 게 안 보여요</strong><p>브라우저가 이전 화면을 기억하고 있을 수 있습니다. <code>Ctrl+Shift+R</code>(강력 새로고침) 또는 시크릿 창으로 열어 보세요. Vercel 대시보드의 <span class="ui">Deployments</span>에서 배포 상태가 <b>Ready</b>인지도 확인합니다.</p></div>
+          <div class="callout warn"><strong class="title">⚠️ 바뀐 게 안 보여요</strong><p>브라우저가 이전 화면을 기억하고 있을 수 있습니다. <code>Ctrl+Shift+R</code>(강력 새로고침) 또는 시크릿 창으로 열어 보세요. 배포 상태도 확인합니다. GitHub Pages는 저장소의 <span class="ui">Actions</span> 탭에 초록색 체크(✓)가 떴는지, Vercel은 대시보드의 <span class="ui">Deployments</span>에서 배포 상태가 <b>Ready</b>인지 봅니다.</p></div>
         </div>
       </div>
 
@@ -721,7 +741,7 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
               <li><code>claude.ai/code</code>에 접속해 <b>GitHub 계정을 연결</b>하고, Claude Code가 접근할 저장소를 허용합니다. (처음 한 번만)</li>
               <li>작업할 <b>저장소를 고르고</b> 말로 요청합니다. "수렴 경계에 베니오프대 표시를 추가해 줘."</li>
               <li>Claude Code가 파일을 직접 고치고 <b>커밋·푸시</b>합니다. 변경 내용은 먼저 별도의 작업 브랜치에 올라갑니다.</li>
-              <li>확인한 뒤 "<b>main에 머지해 줘</b>"라고 하면 main에 반영되고, Vercel이 자동으로 다시 배포합니다.</li>
+              <li>확인한 뒤 "<b>main에 머지해 줘</b>"라고 하면 main에 반영되고, GitHub Pages나 Vercel이 자동으로 다시 배포합니다.</li>
             </ol>
             <p>매번 말하기 번거로우면 저장소의 <code>CLAUDE.md</code>에 "작업이 끝나면 main까지 머지한다"와 같은 규칙을 적어 둡니다.</p>
             <p><b>Claude 채팅에서도 되나요?</b> · 됩니다. GitHub가 연결되어 있으면 Claude 앱의 채팅에서도 "이 저장소를 고쳐서 main에 머지해 줘"라고 요청할 수 있습니다. 다만 계정이나 사용 환경에 따라 채팅에서는 안 될 수 있으니, 그럴 때는 <code>claude.ai/code</code>에서 하면 됩니다. 채팅창의 <span class="ui">+</span> → <span class="ui">Add from GitHub</span>는 코드를 읽어 오는 <b>첨부 기능</b>이라, 이것만으로는 저장소에 올라가지 않습니다.</p>
@@ -735,7 +755,7 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
 
     <h3 style="margin-top:2.6rem">자주 겪는 문제</h3>
     <div class="grid-2">
-      <div class="card"><h3 style="font-size:1.05rem">🔍 주소를 열면 404 NOT FOUND</h3><p style="color:var(--muted);margin:0">파일 이름이 정확히 <code>index.html</code>인지 확인하세요. <code>index.html.txt</code>, <code>Index.html</code>, <code>index.htm</code>은 안 됩니다. 저장소 첫 화면(최상위)에 파일이 있어야 합니다.</p></div>
+      <div class="card"><h3 style="font-size:1.05rem">🔍 주소를 열면 404 NOT FOUND</h3><p style="color:var(--muted);margin:0">파일 이름이 정확히 <code>index.html</code>인지 확인하세요. <code>index.html.txt</code>, <code>Index.html</code>, <code>index.htm</code>은 안 됩니다. 저장소 첫 화면(최상위)에 파일이 있어야 합니다. GitHub Pages는 첫 배포에 몇 분 걸릴 수 있으니 잠시 뒤 다시 열어 보세요.</p></div>
       <div class="card"><h3 style="font-size:1.05rem">⬜ 화면이 하얗게만 나와요</h3><p style="color:var(--muted);margin:0">코드가 일부만 복사됐을 가능성이 큽니다. 코드 마지막이 <code>&lt;/html&gt;</code>로 끝나는지 확인하고, AI에게 "전체 코드를 처음부터 끝까지 다시 보여줘"라고 요청하세요.</p></div>
       <div class="card"><h3 style="font-size:1.05rem">🈳 한글이 깨져요</h3><p style="color:var(--muted);margin:0">파일을 UTF-8로 저장했는지 확인하세요. 코드 상단에 <code>&lt;meta charset="UTF-8"&gt;</code>이 있는지도 확인합니다.</p></div>
       <div class="card"><h3 style="font-size:1.05rem">🤔 오류 메시지를 모르겠어요</h3><p style="color:var(--muted);margin:0">오류 화면을 <b>캡처해서 AI에게 붙여넣고</b> "이 오류가 왜 나는지 설명하고 고쳐줘"라고 하세요. 대부분 바로 해결됩니다.</p></div>
@@ -786,7 +806,7 @@ index.html 파일 하나에 HTML, CSS, JavaScript를 모두 넣어서 만들어�
     <h2>자주 묻는 질문<span class="spark">✦</span></h2>
     <details><summary>코딩을 전혀 몰라도 정말 할 수 있나요?</summary><div class="body">네. 이 가이드의 모든 단계는 코드를 읽거나 쓰지 않습니다. 복사·붙여넣기와 버튼 클릭만 합니다. 중요한 것은 코드 지식이 아니라 "무엇을 만들지" 명확히 말하는 능력이고, 그것은 교사가 가장 잘하는 일입니다.</div></details>
     <details><summary>어떤 AI가 가장 좋은가요?</summary><div class="body">셋 다 교육용 웹앱을 만들기에 충분합니다. 이미 쓰고 있는 것을 쓰세요. 결과가 마음에 안 들면 같은 기획 요약을 다른 AI에 붙여넣어 비교해 보는 것도 좋은 방법입니다.</div></details>
-    <details><summary>무료로 가능한가요?</summary><div class="body">네. AI 채팅 무료 요금제, GitHub 무료, Vercel Hobby(개인·비상업) 무료로 모두 가능합니다. AI 무료 요금제는 사용량 제한이 있어 긴 작업은 나눠서 하는 것이 좋습니다.</div></details>
+    <details><summary>무료로 가능한가요?</summary><div class="body">네. AI 채팅 무료 요금제, GitHub 무료(GitHub Pages 포함), Vercel Hobby(개인·비상업) 무료로 모두 가능합니다. AI 무료 요금제는 사용량 제한이 있어 긴 작업은 나눠서 하는 것이 좋습니다.</div></details>
     <details><summary>학생 개인정보는 괜찮나요?</summary><div class="body">이 가이드의 방식은 로그인 없이 브라우저에서만 실행되는 웹앱이므로 학생 정보가 어디에도 저장되지 않습니다. 학생 이름·점수를 저장하는 기능을 추가하려면 별도 검토가 필요하니, 처음에는 저장 기능 없이 만드세요.</div></details>
     <details><summary>AI가 만든 내용이 과학적으로 틀릴 수도 있나요?</summary><div class="body">네, 그럴듯하게 틀릴 수 있습니다. 반드시 교사가 직접 검토하세요. 프롬프트 모음의 "⑤ 과학적 검토 요청"을 쓰면 AI 스스로 점검하게 할 수도 있지만, 최종 확인은 교사의 몫입니다.</div></details>
     <details><summary>방법 1로 만든 것을 나중에 방법 2로 옮길 수 있나요?</summary><div class="body">네. 미리보기 화면이나 코드 블록에서 코드를 다운로드(또는 복사)해 <code>index.html</code>로 저장한 뒤, 방법 2의 3단계부터 진행하면 됩니다.</div></details>
